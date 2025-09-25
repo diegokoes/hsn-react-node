@@ -1,0 +1,231 @@
+/* =========================
+    Panel / Container
+   ========================= */
+.hsn-register-panel {
+  max-width: 1320px;
+  background: #ffffff;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-family: "Roboto", "Open Sans", sans-serif;
+}
+
+/* Inner form box (right column) */
+.hsn-register-formbox {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* =========================
+    Fonts / Titles
+   ========================= */
+.hsn-register-title {
+  color: #ff6000;
+  font-family: "unineue", "Open Sans", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.hsn-register-lead {
+  color: #6c757d;
+}
+
+/* =========================
+    Benefits list
+   ========================= */
+.hsn-benefits {
+  color: #6c757d;
+}
+.hsn-text-orange {
+  color: #ff6000 !important;
+}
+
+/* =========================
+    Form controls
+   ========================= */
+.hsn-square-input {
+  border-radius: 0 !important;
+  border-color: #d1d5db;
+  box-shadow: none;
+}
+.hsn-input-group-square .form-control,
+.hsn-input-group-square .btn,
+.hsn-input-group-square span {
+  border-radius: 0 !important;
+}
+
+/* =========================
+    Buttons
+   ========================= */
+.btn.hsn-btn-create {
+  background: #00b22d !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-style: italic;
+  text-transform: uppercase;
+  font-family: inherit;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 4px 0 #2c942f;
+}
+.btn.hsn-btn-create:hover,
+.btn.hsn-btn-create:focus {
+  background: #07c638 !important;
+  color: #ffffff !important;
+}
+
+.hsn-btn-social {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  font-weight: 600;
+  border-radius: 6px;
+}
+.btn.hsn-btn-social {
+  background-color: #ffffff !important;
+  border: 1px solid rgb(207, 207, 207) !important;
+}
+.hsn-btn-social:hover,
+.hsn-btn-social:focus {
+  background: #eef1f4;
+}
+
+/* Social buttons layout*/
+.hsn-btn-social {
+  position: relative;
+  padding-left: 3rem;
+}
+.hsn-btn-social .btn-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+}
+.hsn-btn-social .btn-label {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+/* =========================
+    Social title
+   ========================= */
+.hsn-social-title {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Radio group + warnings */
+.hsn-radio-group .form-check {
+  margin-bottom: 0;
+}
+.hsn-warning {
+  color: #dc3545;
+  line-height: 1.25;
+}
+
+/* =========================
+    Custom client type radios
+   ========================= */
+.hsn-client-type {
+  display: flex;
+  gap: 0.75rem;
+}
+.hsn-client-type-option {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.5px;
+  background: #f6f7f9;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background 0.18s ease-in-out, border-color 0.18s ease-in-out,
+    color 0.18s ease-in-out;
+}
+.hsn-client-type-option:hover {
+  border-color: #bfc5cc;
+}
+.hsn-client-type input:focus + .hsn-client-type-option {
+  outline: none;
+  border-color: #ff6000;
+}
+.hsn-client-type input:checked + .hsn-client-type-option {
+  border-color: #ff6000;
+  background: #ffffff;
+  color: #ff6000;
+  box-shadow: none; /* remove double border effect */
+}
+
+/* =========================
+    Special inputs (referral, select)
+   ========================= */
+.hsn-referral {
+  background: #f6f7f9 !important;
+  border: 2px dotted #c5c5c5 !important;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+.hsn-select-grey {
+  background: #f2f2f2;
+  border-color: #d1d5db;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+/* =========================
+    Unified focus styles
+   ========================= */
+.hsn-square-input:focus,
+.hsn-select-grey:focus,
+.hsn-referral:focus {
+  border-color: #ff6000 !important;
+  box-shadow: 0 0 0 2px rgba(255, 96, 0, 0.2) !important;
+}
+
+/* =========================
+    Mobile adjustments
+   ========================= */
+@media (max-width: 767.98px) {
+  .hsn-register-formbox {
+    border: none;
+    box-shadow: none;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+
+/* =========================
+    Password icon inside input
+   ========================= */
+.hsn-password-input {
+  padding-right: 2.5rem !important;
+}
+.hsn-password-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+/* =========================
+    Links / helpers
+   ========================= */
+.hsn-register-panel a {
+  color: inherit !important;
+}
+.hsn-text-sm {
+  font-size: 0.9em;
+}
