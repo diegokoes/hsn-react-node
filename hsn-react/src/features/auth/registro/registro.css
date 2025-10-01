@@ -127,6 +127,9 @@
 .hsn-warning {
   color: #dc3545;
   line-height: 1.25;
+  /* Make the warning slightly smaller than default .small and more visually bold */
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 /* =========================

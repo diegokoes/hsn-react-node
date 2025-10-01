@@ -1,4 +1,6 @@
-export default function InputsParticular() {
+import FormCheckbox from "../checkboxes/form-checkbox";
+
+export default function InputsParticular(props) {
   return (
     <>
       <div className="mb-3">
@@ -13,7 +15,7 @@ export default function InputsParticular() {
           className="form-control hsn-square-input mb-2"
           placeholder="Nombre"
         />
-        <label htmlFor="apellidos" className="form-label small fw-bold">
+        <label htmlFor="apellidos" className="for6m-label small fw-bold">
           Apellidos <em>*</em>
         </label>
         <input
@@ -101,43 +103,7 @@ export default function InputsParticular() {
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label small fw-bold">
-          Enviar promociones especiales para clientes
-        </label>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="recibirPromociones"
-            name="recibirPromociones"
-            value="1"
-          />
-          <label className="form-check-label" htmlFor="recibirPromociones">
-            <span className="label-note small">
-              Quiero recibir promociones exclusivas y contenidos personalizados
-            </span>
-          </label>
-        </div>
-      </div>
-
-      <div className="mb-3">
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="aceptaTerminos"
-            name="aceptaTerminos"
-            value="1"
-          />
-          <label className="form-check-label small" htmlFor="aceptaTerminos">
-            He leído y acepto la {""}
-            <a href="#" className="text-decoration-underline">
-              Política de privacidad
-            </a>
-          </label>
-        </div>
-      </div>
+      <FormCheckbox {...props} />
     </>
   );
 }

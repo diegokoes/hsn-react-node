@@ -4,6 +4,7 @@ import { useState } from "react";
 import LeftPanel from "./left-panel/left-panel";
 import "./registro.css";
 
+const msgObligatorio = "Este es un campo obligatorio";
 export default function Registro() {
   const [formData, setFormData] = useState({
     tipoFormulario: "Particular",
@@ -11,8 +12,9 @@ export default function Registro() {
       nombre: {
         valor: "",
         valido: null,
+        type: "text",
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           minLength: [3, "El nombre debe tener al menos 3 caracteres."],
           maxLength: [30, "El nombre no puede tener más de 30 caracteres."],
           patron: [
@@ -20,12 +22,14 @@ export default function Registro() {
             "El nombre solo puede contener letras y espacios.",
           ],
         },
+        placeholder: "Nombre",
       },
       apellidos: {
         valor: "",
         valido: null,
+        type: "text",
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           minLength: [3, "Los apellidos deben tener al menos 3 caracteres."],
           maxLength: [
             30,
@@ -36,30 +40,41 @@ export default function Registro() {
             "Los apellidos solo pueden contener letras y espacios.",
           ],
         },
+        placeholder: "Apellidos",
       },
       email: {
         valor: "",
         valido: null,
+        type: "email",
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           patron: [
-            /[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/gim,
+            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
             "Introduce un email válido.",
           ],
         },
+        placeholder: "Email",
       },
       genero: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
         },
+        tipo: "select",
+        opciones: [
+          "",
+          "Femenino",
+          "Masculino",
+          "No binario",
+          "Prefiero no decirlo",
+        ],
       },
       password: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           minLength: [8, "La contraseña debe tener al menos 8 caracteres."],
           maxLength: [20, "La contraseña no puede tener más de 20 caracteres."],
           patron: [
@@ -67,30 +82,54 @@ export default function Registro() {
             "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.",
           ],
         },
+        tipo: "password",
+        placeholder: "Introduce tu contraseña",
       },
       repassword: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           coincide: [true, "Las contraseñas no coinciden."],
         },
+        tipo: "password",
+        placeholder: "Repite tu contraseña",
       },
-      recibirPromociones: false,
+      codigoPlanAmigo: {
+        valor: "",
+        valido: null,
+        validaciones: {
+          patron: [
+            /^[0-9]{5}$/,
+            "El código de plan amigo debe tener 5 dígitos.",
+          ],
+        },
+        placeholder: "Código Plan Amigo",
+      },
+
+      recibirPromociones: {
+        valor: false,
+        tipo: "checkbox",
+        labelBold: "Enviar promociones especiales para clientes",
+        labelSmall:
+          "Quiero recibir promociones exclusivas y contenidos personalizados",
+      },
       aceptaTerminos: {
         valor: false,
         valido: null,
         validaciones: {
-          obligatorio: [true, "Debes aceptar los términos y condiciones."],
+          obligatorio: [true, msgObligatorio],
         },
+        tipo: "checkbox",
+        labelSmall: "He leído y acepto la Política de privacidad",
       },
     },
     empresa: {
-      nombreEmpresa: {
+      empresa: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, "Este es un campo obligartorio"],
           minLength: [
             3,
             "El nombre de la empresa debe tener al menos 3 caracteres.",
@@ -104,27 +143,36 @@ export default function Registro() {
             "El nombre de la empresa contiene caracteres no válidos.",
           ],
         },
+        placeholder: "Empresa",
+        extraInfo:
+          "Las facturas se emitirán a la razón social especificada en el campo'Empresa'.",
       },
       cifNif: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
-          patron: [/^[A-Z0-9]{8,9}[A-Z0-9]$/i, "Introduce un CIF/NIF válido."],
+          obligatorio: [true, msgObligatorio],
+          patron: [
+            /^(?:\d{8}[A-Z]|[XYZ](?:\d{7}[A-Z]|\d{8})|[A-HJ-NP-SUVW]\d{7}[0-9A-J])$/i,
+            "CIF/NIF incorrecto, ejemplo 00000000X, X00000000 o A00000000.",
+          ],
         },
+        placeholder: "CIF / NIF",
       },
       recargoEquivalencia: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
         },
+        tipo: "select",
+        opciones: ["Escoge una opcion", "No", "Sí"],
       },
       nombre: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           minLength: [3, "El nombre debe tener al menos 3 caracteres."],
           maxLength: [30, "El nombre no puede tener más de 30 caracteres."],
           patron: [
@@ -132,12 +180,13 @@ export default function Registro() {
             "El nombre solo puede contener letras y espacios.",
           ],
         },
+        placeholder: "Nombre",
       },
       apellidos: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           minLength: [3, "Los apellidos deben tener al menos 3 caracteres."],
           maxLength: [
             30,
@@ -148,23 +197,25 @@ export default function Registro() {
             "Los apellidos solo pueden contener letras y espacios.",
           ],
         },
+        placeholder: "Apellidos",
       },
       email: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           patron: [
-            /[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/gim,
+            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
             "Introduce un email válido.",
           ],
         },
+        placeholder: "Email",
       },
       password: {
         valor: "",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
+          obligatorio: [true, msgObligatorio],
           minLength: [8, "La contraseña debe tener al menos 8 caracteres."],
           maxLength: [20, "La contraseña no puede tener más de 20 caracteres."],
           patron: [
@@ -172,32 +223,55 @@ export default function Registro() {
             "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.",
           ],
         },
+        tipo: "password",
+        placeholder: "Introduce tu contraseña",
       },
       repassword: {
-        valor: "",
+        valor:
+          "Quiero recibir promociones exclusivas y contenidos personalizados",
         valido: null,
         validaciones: {
-          obligatorio: [true, "El campo es obligatorio."],
-          coincide: [true, "Las contraseñas no coinciden."],
+          obligatorio: [true, msgObligatorio],
+          coincide: [false, "Las contraseñas no coinciden."],
         },
+        tipo: "password",
+        placeholder: "Repite tu contraseña",
       },
-      recibirPromociones: false,
+      recibirPromociones: {
+        valor: false,
+        tipo: "checkbox",
+        labelBold: "Enviar promociones especiales para clientes",
+        labelSmall:
+          "Quiero recibir promociones exclusivas y contenidos personalizados",
+      },
       confirmarRazonSocial: {
         valor: false,
         valido: null,
         validaciones: {
-          obligatorio: [true, "Debes confirmar la razón social."],
+          obligatorio: [true, msgObligatorio],
         },
+        labelBold: " Confirmación razón social ",
+        labelSmall:
+          "Las facturas se emitirán a la razón social especificada en el campo 'Empresa'.",
       },
       aceptaTerminos: {
         valor: false,
         valido: null,
         validaciones: {
-          obligatorio: [true, "Debes aceptar los términos y condiciones."],
+          obligatorio: [true, msgObligatorio],
         },
+        placeholder: "He leído y acepto la Política de privacidad",
       },
     },
   });
+  function handleChange(ev) {
+    return ev;
+  }
+
+  function handleSubmit(ev) {
+    ev.preventDefault();
+    console.log(formData);
+  }
 
   return (
     <section className="container my-4 my-md-5 d-flex justify-content-center">
@@ -262,15 +336,23 @@ export default function Registro() {
                         Empresa
                       </label>
                     </div>
-                    <p className="hsn-warning mt-1 mb-2 small fw-semibold">
-                      <em>* </em>Atención: si eres autónomo o empresa y
-                      necesitas una factura selecciona la opción EMPRESA.
-                    </p>
+                    {formData.tipoFormulario === "Particular" && (
+                      <p className="hsn-warning mt-1 mb-2 small fw-bold">
+                        <em>* </em>Atención: si eres autónomo o empresa y
+                        necesitas una factura selecciona la opción EMPRESA.
+                      </p>
+                    )}
                   </div>
                   {formData.tipoFormulario === "Particular" ? (
-                    <InputsParticular />
+                    <InputsParticular
+                      datosParticular={formData.particular}
+                      handleChange={handleChange}
+                    />
                   ) : (
-                    <InputsEmpresa />
+                    <InputsEmpresa
+                      datosEmpresa={formData.empresa}
+                      handleChange={handleChange}
+                    />
                   )}
                   <div className="row g-3 align-items-center">
                     <div className="col-12 col-sm-6 order-sm-2">
