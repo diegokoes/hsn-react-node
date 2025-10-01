@@ -3,6 +3,7 @@ const express = require("express");
 const objetoRoutingCliente = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 objetoRoutingCliente.post("/Cliente", async (req, resp, next) => {
   try {
     console.log(
@@ -13,7 +14,7 @@ objetoRoutingCliente.post("/Cliente", async (req, resp, next) => {
     console.log(`MONGODB_URL: ${process.env.MONGODB_URL}`);
 
     await mongoose.connect(process.env.MONGODB_URL);
-
+    //! COMPROBAR ANTES QUE NO EXISTA EL EMAIL EN LA BD
     // insert con query mongodb pura sin mongoose
     let resInsert = await mongoose.connection.collection("clientes").insertOne({
       nombre: req.body.nombre,
@@ -31,7 +32,10 @@ objetoRoutingCliente.post("/Cliente", async (req, resp, next) => {
       direccionEnvio: {},
       metodosPagoPreferido: [],
     });
-    //2º envio de email con mailjet
+    //2º envio de email con mailjet -  invocamos a nuestro servicio REST API
+    // cliente react -> servicio nodejs -> servicio mailjet apirest
+    // peticion http post con fetch, también se puede usar axios
+
     //3º respuesta al cliente
 
     resp
