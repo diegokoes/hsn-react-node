@@ -4,7 +4,8 @@ const objetoRoutingCliente = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-objetoRoutingCliente.post("/Cliente", async (req, resp, next) => {
+
+objetoRoutingCliente.post("/Registro", async (req, resp) => {
   try {
     console.log(
       `peticion http POST recibida desde el cliente REACT, con datos en el cuerpo: ${req.body}`
@@ -26,6 +27,7 @@ objetoRoutingCliente.post("/Cliente", async (req, resp, next) => {
         password: req.body.password,
         activada: false,
         fechaCreacion: Date.now(),
+        imagenPerfil: "",
       },
       pedidos: [],
       listaDeseados: [],
@@ -50,4 +52,5 @@ objetoRoutingCliente.post("/Cliente", async (req, resp, next) => {
   }
 });
 
+objetoRoutingCliente.post("/Login", async (req, resp) => {});
 module.exports = objetoRoutingCliente;

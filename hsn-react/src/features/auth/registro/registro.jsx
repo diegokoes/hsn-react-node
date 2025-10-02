@@ -268,9 +268,43 @@ export default function Registro() {
     return ev;
   }
 
-  function handleSubmit(ev) {
+  async function handleSubmit(ev) {
     ev.preventDefault();
-    console.log(formData);
+  }
+
+  // normaliza el estado del formulario a un payload para la API
+  function normalizeFormData(useState) {
+    if (useState.tipoFormulario === "Particular") {
+      const p = useState.particular;
+      return {
+        type: "particular",
+        nombre: p.nombre.valor,
+        apellidos: p.apellidos.valor,
+        email: p.email.valor,
+        genero: p.genero.valor || null,
+        password: p.password.valor,
+        passwordRepeat: p.repassword.valor,
+        codigoPlanAmigo: p.codigoPlanAmigo.valor || null,
+        recibirPromociones: !!p.recibirPromociones.valor,
+        aceptaTerminos: !!p.aceptaTerminos.valor,
+      };
+    } else {
+      const e = useState.empresa;
+      return {
+        type: "empresa",
+        empresa: e.empresa.valor,
+        cifNif: e.cifNif.valor,
+        recargoEquivalencia: e.recargoEquivalencia.valor,
+        nombre: e.nombre.valor,
+        apellidos: e.apellidos.valor,
+        email: e.email.valor,
+        password: e.password.valor,
+        passwordRepeat: e.repassword.valor,
+        recibirPromociones: !!e.recibirPromociones.valor,
+        confirmarRazonSocial: !!e.confirmarRazonSocial.valor,
+        aceptaTerminos: !!e.aceptaTerminos.valor,
+      };
+    }
   }
 
   return (
@@ -284,7 +318,7 @@ export default function Registro() {
           <div className="col-12 col-lg-7 border-lg-start border-md-top-0">
             <div className="p-3 p-md-4 pe-md-5">
               <div className="hsn-register-formbox p-3 p-md-4">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <input type="hidden" name="success_url" value="" />
                   <input type="hidden" name="error_url" value="" />
                   <input type="hidden" name="form_key" value="" />

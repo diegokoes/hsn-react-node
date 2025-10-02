@@ -1,4 +1,4 @@
-🗄️ Project Structure
+# 🗄️ Project Structure
 
 Most of the code lives in the src folder and looks something like this:
 

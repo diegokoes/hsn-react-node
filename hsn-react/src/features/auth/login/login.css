@@ -86,10 +86,9 @@
   background: #eef1f4;
 }
 
-/* Position icon on the far left and keep label centered */
 .hsn-btn-social {
   position: relative;
-  padding-left: 3rem; /* space for icon */
+  padding-left: 3rem;
 }
 .hsn-btn-social .btn-icon {
   position: absolute;
@@ -132,4 +131,85 @@
    ========================= */
 .hsn-text-sm {
   font-size: 0.9em;
+}
+
+/* =========================
+   Inline form messages
+   ========================= */
+.messages {
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0 auto 1rem;
+  max-width: 960px;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
+.messages .error-msg {
+  display: block;
+  background: #fff5f5;
+  border: 3px dashed #ff6161;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem 0.6rem 3.5rem;
+  position: relative;
+  color: #7a0b0b;
+  margin: 0 auto;
+}
+
+.messages .error-msg ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.messages .error-msg li {
+  margin: 0;
+  padding: 0;
+}
+
+.messages .error-msg::before {
+  content: "✖";
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  background: #ff6161;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.messages .error-msg span {
+  display: inline-block;
+  line-height: 1.35;
+}
+
+.hsn-input-group-square {
+  position: relative;
+}
+.hsn-input-group-square .form-control {
+  padding-right: 3rem; /* room for the icon */
+}
+.hsn-input-group-square .hsn-password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6c757d;
+  z-index: 5;
+}
+.hsn-input-group-square .hsn-password-toggle .visible {
+  color: #28a745;
 }
