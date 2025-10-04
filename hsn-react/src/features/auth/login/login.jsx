@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css";
 
 export default function Login() {
@@ -39,23 +39,16 @@ export default function Login() {
       ...prev,
       submitClick: true,
     }));
-
-    if (loginData.formValido) {
-      console.log("Submitting login", {
-        email: loginData.email.valor,
-        password: loginData.password.valor,
-      });
-    } else {
-      console.log("Form invalid, aborting submit");
-    }
   }
+  // comprueba si el form se valida correctamente
+  useEffect(() => {
+    console.log("formValido:", loginData.formValido);
+  }, [loginData.formValido]);
 
   function handleOnChange(e) {
-    const id = e.target.id;
-    const valor = e.target.value;
+    const { id, value: valor } = e.target;
     const campo = loginData[id];
     const patron = campo.validaciones.patron[0];
-    let formValido = false;
 
     let mensajeValidacion = "";
     let valido = null;
@@ -70,23 +63,23 @@ export default function Login() {
       valido = true;
       mensajeValidacion = "";
     }
-    if (
-      loginData.email.valido === true &&
-      loginData.password.valido === true &&
-      valido === true
-    ) {
-      formValido = true;
-    }
-    setLoginData((prev) => ({
-      ...prev,
-      formValido,
-      [id]: {
+    setLoginData((prev) => {
+      const otroId = id === "email" ? "password" : "email";
+      const campoActualizado = {
         ...prev[id],
         valor,
         mensajeValidacion,
         valido,
-      },
-    }));
+      };
+      const otroCampoValido = Boolean(prev[otroId].valido);
+      const formValido = Boolean(campoActualizado.valido) && otroCampoValido;
+
+      return {
+        ...prev,
+        formValido,
+        [id]: campoActualizado,
+      };
+    });
 
     console.log(
       "input:",
@@ -96,9 +89,7 @@ export default function Login() {
       "\nmensajeValidacion:",
       mensajeValidacion,
       "\nvalido:",
-      valido,
-      "\nformValido:",
-      formValido
+      valido
     );
   }
   return (
