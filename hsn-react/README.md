@@ -1,12 +1,7 @@
-# React + Vite
+# HSN STORE replica with React(Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## TODO's
 
-Currently, two official plugins are available:
+- At first I found the idea of centralizing the form inputs into an useState a brilliant one, but I haven't found a way to modularize the components (inputs of 'Empresa' and 'Particular') without having duplicate properties in the useState object. So many duplicated lines of code...
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- The second password input validates if that text matches the first password input, but all validations depend on the input having the onChange, so if the 1st password input changes and ends up matching both, the error message is still showing even if the validations are ok.
