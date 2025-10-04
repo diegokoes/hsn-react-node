@@ -30,6 +30,6 @@ module.exports = (serverExpress) => {
   // .use() configura/añade un middlware a la pipeline - personalizadas
 
   //* POR NORMA GENERAL LOS ULTIMOS LOS DE RUTAS PERSONALIZADAS
-  serverExpress.use("/api/Cliente", objetoRoutingCliente);
+  serverExpress.use("/auth", objetoRoutingCliente);
   // serverExpress.use("/api/Tienda", objetoRoutingTienda);
 };

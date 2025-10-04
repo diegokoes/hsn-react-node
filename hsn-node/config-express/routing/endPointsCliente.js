@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-objetoRoutingCliente.post("/Registro", async (req, resp) => {
+objetoRoutingCliente.post("/registro", async (req, resp) => {
   try {
     console.log(
       `peticion http POST recibida desde el cliente REACT, con datos en el cuerpo: ${req.body}`
@@ -52,5 +52,14 @@ objetoRoutingCliente.post("/Registro", async (req, resp) => {
   }
 });
 
-objetoRoutingCliente.post("/Login", async (req, resp) => {});
+objetoRoutingCliente.post("/login", async (req, resp) => {
+  console.log("Content-Type:", req.get("content-type"));
+  console.log("Body object:", req.body);
+  console.log("Body JSON:", JSON.stringify(req.body));
+  resp.status(200).send({
+    codigo: 0,
+    mensaje: "datos recibidos correctamente",
+    datos: req.body,
+  });
+});
 module.exports = objetoRoutingCliente;
