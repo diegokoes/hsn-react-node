@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./login.css";
 
+// Componente `Login`: controla el formulario de inicio de sesión,
+// su estado local, validaciones en cliente y el envío (submit) de datos.
 export default function Login() {
   const msgObligatorio = "Este campo es obligatorio";
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -33,6 +35,8 @@ export default function Login() {
     formValido: false,
   });
 
+  // handleSubmit: previene el envío por defecto y marca que se ha intentado
+  // enviar el formulario para mostrar errores si hay campos inválidos.
   async function handleSubmit(e) {
     e.preventDefault();
     setLoginData((prev) => ({
@@ -40,11 +44,16 @@ export default function Login() {
       submitClick: true,
     }));
   }
-  // comprueba si el form se valida correctamente
+
+  // Efecto: observa `formValido` para acciones de depuración o efectos
+  // secundarios cuando cambia el estado de validez del formulario.
   useEffect(() => {
     console.log("formValido:", loginData.formValido);
   }, [loginData.formValido]);
 
+  // handleOnChange: valida el campo que cambia, actualiza su valor,
+  // mensaje de validación y recalcula `formValido`.
+  // Parámetros: evento DOM del input.
   function handleOnChange(e) {
     const { id, value: valor } = e.target;
     const campo = loginData[id];

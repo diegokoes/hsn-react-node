@@ -1,9 +1,12 @@
-import InputsParticular from "@/features/auth/registro/components/label-inputs/inputs-compartidos";
 import { useState } from "react";
+import InputsCompartidos from "./components/label-inputs/inputs-compartidos";
 import LeftPanel from "./panel-izquierdo/panel-izquierdo";
 import "./registro.css";
 
 const msgObligatorio = "Este es un campo obligatorio";
+
+// Componente `Registro`: controla el formulario de registro, su estado local,
+// validaciones en el cliente y el envío de los datos al backend.
 export default function Registro() {
   const [formData, setFormData] = useState({
     tipoFormulario: "Particular",
@@ -131,7 +134,7 @@ export default function Registro() {
         tipo: "checkbox",
         labelSmall: "He leído y acepto la Política de privacidad",
       },
-      valido: false,
+      formValido: true, // tengo que ver como lo manejo dinamicamente
     },
     empresa: {
       empresa: {
@@ -237,7 +240,7 @@ export default function Registro() {
             "▲ La contraseña no puede tener más de 20 caracteres.",
           ],
           patron: [
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,80}$/,
             "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.",
           ],
         },
@@ -249,7 +252,7 @@ export default function Registro() {
         valido: null,
         validaciones: {
           obligatorio: [true, `▲ ${msgObligatorio}`],
-          coincide: [false, "▲ Las contraseñas no coinciden."],
+          coincide: "▲ Las contraseñas no coinciden.",
         },
         tipo: "password",
         placeholder: "Repite tu contraseña",
@@ -281,17 +284,20 @@ export default function Registro() {
         tipo: "checkbox",
         labelSmall: "He leído y acepto la Política de privacidad",
       },
-      formValido: false,
+      formValido: true, // tengo que ver como lo manejo dinamicamente
     },
   });
+  // handleChange: actualiza el estado del campo que cambia, ejecuta las
+  // validaciones definidas y guarda `valor`, `mensajeValidacion` y `valido`.
+  // Parámetros: evento DOM del input.
   function handleChange(ev) {
-    const valor = ev.target.value;
+    const valor =
+      ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
     const id = ev.target.id;
     const tipoFormulario =
       formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     const campo = formData[tipoFormulario][id];
     let mensajeValidacion = "";
-    let formValido = false;
     let valido = null;
     if (
       campo.tipo === "text" ||
@@ -338,8 +344,12 @@ export default function Registro() {
       ) {
         mensajeValidacion = "▲ Selecciona una opción válida.";
         valido = false;
+      } else {
+        valido = true;
+        mensajeValidacion = "";
       }
     }
+
     setFormData((prev) => ({
       ...prev,
       [tipoFormulario]: {
@@ -350,9 +360,9 @@ export default function Registro() {
           mensajeValidacion,
           valido,
         },
-        formValido,
       },
     }));
+
     console.log(
       "input:",
       id,
@@ -364,12 +374,91 @@ export default function Registro() {
       valido
     );
   }
+  // normalizarUseStateData: toma la sección del estado (particular/empresa)
+  // y devuelve un objeto plano con solo los valores (`.valor`) aptos para
+  // enviar al servidor, descartando metadatos UI como validaciones o labels.
+  function normalizarUseStateData(objCliente) {
+    const skip = new Set([
+      "repassword",
+      "validaciones",
+      "mensajeValidacion",
+      "tipo",
+      "placeholder",
+      "labelSmall",
+      "labelBold",
+      "opciones",
+      "valido",
+      "formValido",
+      "extraInfo",
+    ]);
 
-  async function handleSubmit(ev) {
-    ev.preventDefault();
+    return Object.fromEntries(
+      Object.entries(objCliente)
+        .filter(
+          ([key, val]) =>
+            val && typeof val === "object" && "valor" in val && !skip.has(key)
+        )
+        .map(([key, val]) => [key, val.valor])
+    );
   }
 
-  // normaliza el estado del formulario a un payload para la API
+  // handleSubmit: evita el comportamiento por defecto del formulario,
+  // construye el payload normalizado y realiza la petición POST al backend.
+  // También maneja errores básicos de la petición.
+  async function handleSubmit(ev) {
+    ev.preventDefault();
+    const url = "http://127.0.0.1:3000/auth/registro";
+    const tipo =
+      formData.tipoFormulario === "Particular" ? "particular" : "empresa";
+    if (!formData[tipo].formValido) {
+      console.log("no es valido, no se hace submit");
+      return;
+    }
+
+    const payload = normalizarUseStateData(formData[tipo]);
+    try {
+      console.log(payload);
+      const respuesta = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ payload, tipo }),
+      });
+      if (respuesta.ok) {
+        console.log("recibido de NODEJS", respuesta.status);
+      } else {
+        const text = await respuesta.text().catch(() => "");
+        console.error("Error en respuesta:", respuesta.status, text);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // handleTogglePassword: alterna el tipo del input (password <-> text)
+  // para mostrar/ocultar la contraseña de forma local en el estado.
+  function handleTogglePassword(campoId) {
+    setFormData((prev) => {
+      const tipoFormulario =
+        prev.tipoFormulario === "Particular" ? "particular" : "empresa";
+      const campo = prev[tipoFormulario][campoId];
+      if (!campo || (campo.tipo !== "password" && campo.tipo !== "text")) {
+        return prev;
+      }
+      const nuevoTipo = campo.tipo === "password" ? "text" : "password";
+      return {
+        ...prev,
+        [tipoFormulario]: {
+          ...prev[tipoFormulario],
+          [campoId]: {
+            ...campo,
+            tipo: nuevoTipo,
+          },
+        },
+      };
+    });
+  }
 
   return (
     <section className="container my-4 my-md-5 d-flex justify-content-center">
@@ -442,28 +531,16 @@ export default function Registro() {
                     )}
                   </div>
 
-                  <InputsParticular
+                  <InputsCompartidos
                     datosParticular={
                       formData.tipoFormulario === "Particular"
                         ? formData.particular
                         : formData.empresa
                     }
                     handleChange={handleChange}
+                    onTogglePassword={handleTogglePassword}
+                    handleSubmit={handleSubmit}
                   />
-
-                  <div className="row g-3 align-items-center">
-                    <div className="col-12 col-sm-6 order-sm-2">
-                      <div className="d-grid">
-                        <button
-                          type="submit"
-                          className="btn hsn-btn-create fs-6"
-                        >
-                          REGISTRARME YA
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-6 order-sm-1"></div>
-                  </div>
                 </form>
               </div>
             </div>

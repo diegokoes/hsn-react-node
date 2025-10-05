@@ -6,13 +6,20 @@ export default function InputsCompartidos(props) {
 
       {props.datosParticular &&
         Object.entries(props.datosParticular).map(([clave, valor]) => {
-          if (["text", "email", "password"].includes(valor.tipo)) {
+          // Password fields should always render with the eye icon wrapper,
+          // even when the current input type is "text" (visible state).
+          const isPasswordField =
+            clave === "password" || clave === "repassword";
+          if (
+            ["text", "email", "password"].includes(valor.tipo) ||
+            isPasswordField
+          ) {
             return (
               <div className="mb-1" key={clave}>
                 <label htmlFor={clave} className="form-label small fw-bold">
                   {`${valor.placeholder} con el estate`}
                 </label>
-                {valor.tipo === "password" ? (
+                {isPasswordField ? (
                   <div className="position-relative mb-2">
                     <input
                       id={clave}
@@ -23,8 +30,19 @@ export default function InputsCompartidos(props) {
                       onChange={props.handleChange}
                       value={valor.valor}
                     />
-                    <span className="hsn-password-icon text-secondary">
-                      <i className="bi bi-eye" />
+                    <span
+                      className={`hsn-password-icon text-secondary ${
+                        valor.tipo === "text" ? "visible" : ""
+                      }`}
+                      onClick={() =>
+                        props?.onTogglePassword && props.onTogglePassword(clave)
+                      }
+                    >
+                      <i
+                        className={`bi ${
+                          valor.tipo === "text" ? "bi-eye" : "bi-eye-slash"
+                        }`}
+                      />
                     </span>
                   </div>
                 ) : (
@@ -58,13 +76,19 @@ export default function InputsCompartidos(props) {
                   name={clave}
                   className="form-select hsn-square-input hsn-select-grey"
                   onChange={props.handleChange}
+                  value={valor.valor}
                 >
                   {valor.opciones.map((el, pos) => (
-                    <option value={el} defaultValue key={pos}>
+                    <option value={el} key={pos}>
                       {el} con el state
                     </option>
                   ))}
                 </select>
+                {valor.valido === false && (
+                  <div className="form-text text-danger small">
+                    {valor.mensajeValidacion}
+                  </div>
+                )}
               </div>
             );
           }
@@ -81,17 +105,32 @@ export default function InputsCompartidos(props) {
                     type="checkbox"
                     id={clave}
                     name={clave}
-                    value="1"
                     onChange={props.handleChange}
+                    checked={!!valor.valor}
                   />
                   <label className="form-check-label" htmlFor={clave}>
                     <span className="label-note small">{valor.labelSmall}</span>
                   </label>
                 </div>
+                {valor.valido === false && (
+                  <div className="form-text text-danger small">
+                    {valor.mensajeValidacion}
+                  </div>
+                )}
               </div>
             );
           }
         })}
+      <div className="row g-3 align-items-center">
+        <div className="col-12 col-sm-6 order-sm-2">
+          <div className="d-grid">
+            <button type="submit" className="btn hsn-btn-create fs-6">
+              REGISTRARME YA
+            </button>
+          </div>
+        </div>
+        <div className="col-12 col-sm-6 order-sm-1"></div>
+      </div>
     </>
   );
 }
