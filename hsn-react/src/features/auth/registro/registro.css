@@ -219,8 +219,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
+  cursor: pointer;
   font-size: 1rem;
+}
+
+.hsn-password-icon.visible,
+.hsn-password-icon .visible {
+  color: #28a745;
 }
 
 /* =========================
