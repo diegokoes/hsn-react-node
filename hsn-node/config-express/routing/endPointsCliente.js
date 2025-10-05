@@ -6,60 +6,42 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 objetoRoutingCliente.post("/registro", async (req, resp) => {
-  try {
-    console.log(
-      `peticion http POST recibida desde el cliente REACT, con datos en el cuerpo: ${req.body}`
+  console.log(req.body);
+
+  const { payload, tipo } = req.body;
+  const coleccionNombre = tipo === "empresa" ? "empresas" : "particulares";
+
+  await mongoose.connect(process.env.MONGODB_URL);
+
+  const coleccion = mongoose.connection.collection(coleccionNombre);
+  //! COMPROBAR ANTES QUE NO EXISTA EL EMAIL EN LA BD
+  const duplicadoEmail = await coleccion.findOne({ email: payload.email });
+  if (duplicadoEmail) {
+    console.log("*** EMAIL DUPLICADO *****");
+    return resp.status(
+      200,
+      "EL EMAIL YA ESTA REGISTRADO EN LA BASE DE DATOS!!"
     );
-
-    //1º insercion con mongoose, valida automaticamente, si no, driver nativo mogodb con validacion manual
-    console.log(`MONGODB_URL: ${process.env.MONGODB_URL}`);
-
-    await mongoose.connect(process.env.MONGODB_URL);
-    //! COMPROBAR ANTES QUE NO EXISTA EL EMAIL EN LA BD
-    // insert con query mongodb pura sin mongoose
-    let resInsert = await mongoose.connection.collection("clientes").insertOne({
-      nombre: req.body.nombre,
-      apellidos: req.body.apellidos,
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 10),
-      cuenta: {
-        email: req.body.email,
-        password: req.body.password,
-        activada: false,
-        fechaCreacion: Date.now(),
-        imagenPerfil: "",
-      },
+  } else {
+    const resInsert = await coleccion.insertOne({
+      ...payload,
+      password: bcrypt.hashSync(payload.password, 10),
+      cuentaActivada: false,
+      imagenAvatar: "",
+      fechaCreacionCuenta: Date.now(),
       pedidos: [],
       listaDeseados: [],
-      direccionEnvio: {},
-      metodosPagoPreferido: [],
+      direcciones: [],
+      metodosPago: [],
     });
-    //2º envio de email con mailjet -  invocamos a nuestro servicio REST API
-    // cliente react -> servicio nodejs -> servicio mailjet apirest
-    // peticion http post con fetch, también se puede usar axios
-
-    //3º respuesta al cliente
-
-    resp
-      .status(200)
-      .send({ codigo: 0, mensaje: "datos recibidos correctamente" });
-  } catch (error) {
-    console.log("error en el registro del cliente ", error);
-    resp.status(200).send({
-      codigo: 1,
-      mensaje: `error en el registro del cliente: ${error}`,
-    });
+    console.log("*** INSERTADO? : ", resInsert);
   }
+
+  //2º envio de email con mailjet -  invocamos a nuestro servicio REST API
+  // cliente react -> servicio nodejs -> servicio mailjet apirest
+  // peticion http post con fetch, también se puede usar axios
+
+  //3º respuesta al cliente
 });
 
-objetoRoutingCliente.post("/login", async (req, resp) => {
-  console.log("Content-Type:", req.get("content-type"));
-  console.log("Body object:", req.body);
-  console.log("Body JSON:", JSON.stringify(req.body));
-  resp.status(200).send({
-    codigo: 0,
-    mensaje: "datos recibidos correctamente",
-    datos: req.body,
-  });
-});
 module.exports = objetoRoutingCliente;

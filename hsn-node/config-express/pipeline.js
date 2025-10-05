@@ -12,17 +12,13 @@ module.exports = (serverExpress) => {
   // funciones middleware para todas las rutas, generalmente de paquetes de terceros (modulos npm)
 
   // cors
-  serverExpress.use(
-    cors({ origin: "http://localhost:5173", methods: ["GET", "POST"] })
-  );
+  serverExpress.use(cors());
   //* SE ALMACENA EN req.body
   serverExpress.use(cookieParser());
-  console.log(`${cookieParser}`);
 
   // middleware express.json() para gestionar peticiones http con formato json,
   //* SE ALMACENA EN req.body
   serverExpress.use(express.json());
-  console.log(`${express.json}`);
   // para gestioanr peticiones http get con variables en url
   //* SE ALMACENA EN req.query
   serverExpress.use(express.urlencoded({ extended: false }));
