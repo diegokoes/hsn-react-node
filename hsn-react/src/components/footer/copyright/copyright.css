@@ -1,0 +1,148 @@
+/* =========================
+   Footer - Base
+   ========================= */
+.footer-copyright {
+  background: #333333;
+  color: #ffffff;
+  padding-block: 1.25rem;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   Logo
+   ========================= */
+.footer-logo {
+  max-height: 56px;
+}
+
+.foot-logo {
+  padding-left: 0.25rem;
+}
+
+/* =========================
+   Copy / Text
+   ========================= */
+.foot-copy {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 0.92rem;
+}
+
+/* =========================
+   Social icons
+   ========================= */
+.foot-icons {
+  padding-right: 0.25rem;
+}
+
+.foot-icons .social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #ffffff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.foot-icons .social-link:hover,
+.foot-icons .social-link:focus {
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.foot-icons .bi {
+  font-size: 1.05rem;
+}
+
+/* =========================
+   Health register
+   ========================= */
+.footer_health_register .center {
+  font-size: 0.92rem;
+}
+
+.footer_health_register .left,
+.footer_health_register .right {
+  white-space: nowrap;
+}
+
+/* =========================
+   Responsive tweaks
+   ========================= */
+@media (max-width: 575.98px) {
+  .footer-logo {
+    max-height: 42px;
+  }
+}
+
+@media (min-width: 992px) {
+  .footer-copyright {
+    padding-block: 1.75rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* Row 1: logo + copy stacked */
+  .footer_copyright_container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .foot-logo,
+  .foot-copy {
+    text-align: center !important;
+  }
+  .foot-logo {
+    order: 1;
+  }
+  .foot-copy {
+    order: 2;
+  }
+
+  /* Row 2: social icons centered */
+  .foot-icons {
+    order: 3;
+    justify-content: center !important;
+    margin-top: 0.5rem;
+  }
+
+  /* Row 3: health register numbers each on its own line and centered */
+  .footer_health_register .col-12 {
+    text-align: center !important;
+    margin: 0.15rem 0;
+  }
+}
+
+/* At <=991px (Bootstrap lg breakpoint),  3 rows layout */
+@media (max-width: 991.98px) {
+  /* Row 1: logo + copy stacked */
+  .footer_copyright_container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .foot-logo,
+  .foot-copy {
+    text-align: center !important;
+  }
+  .foot-logo {
+    order: 1;
+  }
+  .foot-copy {
+    order: 2;
+  }
+
+  .foot-icons {
+    order: 3;
+    justify-content: center !important;
+    margin-top: 0.5rem;
+  }
+
+  .footer_health_register .col-12 {
+    text-align: center !important;
+    margin: 0.15rem 0;
+  }
+}
