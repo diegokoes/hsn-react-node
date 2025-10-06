@@ -13,8 +13,12 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "localforage": "^1.10.0",
+    "match-sorter": "^8.1.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.3",
+    "sort-by": "^1.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
