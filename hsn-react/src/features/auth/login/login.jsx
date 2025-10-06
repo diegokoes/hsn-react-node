@@ -7,6 +7,8 @@ export default function Login() {
   const msgObligatorio = "Este campo es obligatorio";
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginData, setLoginData] = useState({
+    //!TODO Usar el componente inputs-compartidos con login
+    //!TODO ^_ añadir informacion a los objetos email y password para conseguirlo
     email: {
       valor: "",
       valido: null,

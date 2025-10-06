@@ -4,7 +4,7 @@ export default function Copyright() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer-copyright py-3 py-md-4">
+    <footer className="footer-copyright footer-tall">
       <div className="container">
         {/* Row: Logo | Copy | Social icons */}
         <div className="row align-items-center gy-3 copyright_row">
@@ -15,7 +15,7 @@ export default function Copyright() {
                 <img
                   src="https://www.hsnstore.com/skin/frontend/default/hsnreborn/images/hsnWhite.svg"
                   alt="HSNstore.com"
-                  className="footer-logo img-fluid"
+                  className="footer-logo"
                   loading="lazy"
                 />
               </div>
