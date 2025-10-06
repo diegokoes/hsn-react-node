@@ -1,3 +1,11 @@
+
+# 🗄️ Project Structure
+
+I've taken ideas about organization of react projects from this repo:
+<https://github.com/alan2207/bulletproof-react/tree/master>
+
+They are mainly oriented for React with frameworks and Typescript, but some ideas are universal and has an example with a Vite React App.
+
 # 🗄️ Project Structure
 
 Most of the code lives in the src folder and looks something like this:

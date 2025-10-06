@@ -13,3 +13,4 @@
 I've used mainly in this places:
 
 - Comment every function with a brief and concise description of what it does
+- Bootstrap styling of scrapped components of the original site
