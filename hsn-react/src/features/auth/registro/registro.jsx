@@ -378,7 +378,7 @@ export default function Registro() {
   // y devuelve un objeto plano con solo los valores (`.valor`) aptos para
   // enviar al servidor, descartando metadatos UI como validaciones o labels.
   function normalizarUseStateData(objCliente) {
-    const skip = new Set([
+    const ignorar = new Set([
       "repassword",
       "validaciones",
       "mensajeValidacion",
@@ -396,7 +396,10 @@ export default function Registro() {
       Object.entries(objCliente)
         .filter(
           ([key, val]) =>
-            val && typeof val === "object" && "valor" in val && !skip.has(key)
+            val &&
+            typeof val === "object" &&
+            "valor" in val &&
+            !ignorar.has(key)
         )
         .map(([key, val]) => [key, val.valor])
     );
