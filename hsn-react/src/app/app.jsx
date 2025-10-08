@@ -6,6 +6,8 @@ import Registro from "../features/auth/registro/registro";
 import NotFound from "./rutas/404";
 import Landing from "./rutas/pagina-landing";
 
+//#region --------- LAYOUT - REACT ROUTER-DOM
+
 function Layout() {
   return (
     <div className="app-layout d-flex flex-column min-vh-100">
@@ -17,11 +19,20 @@ function Layout() {
     </div>
   );
 }
-
+//#endregion
+//#region --------- createBrowserRouter - RUTAS
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    loader: (request, params) => {
+      console.log(
+        "ejecutando el loader antes de renderizar. ..\nrequest:",
+        request,
+        "\nparams:",
+        params
+      );
+    },
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Landing /> },
@@ -37,7 +48,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
+//#endregion
 export default function App() {
   return <RouterProvider router={router} />;
 }

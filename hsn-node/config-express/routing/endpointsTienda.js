@@ -1,6 +1,6 @@
 // exportamos objeto de enrutamiento
 const express = require("express");
-const objetoRoutingCliente = express.Router();
+const objetoRoutingTienda = express.Router();
 const mongoose = require("mongoose");
 
 objetoRoutingTienda.get("/categorias", async (req, resp) => {
