@@ -1,13 +1,8 @@
 export default function InputsCompartidos(props) {
   return (
     <>
-      {/* for debugging and see if it passes the object well*/}
-      {/* <p>{JSON.stringify(props.datosParticular)}</p> */}
-
       {props.datosParticular &&
         Object.entries(props.datosParticular).map(([clave, valor]) => {
-          // Password fields should always render with the eye icon wrapper,
-          // even when the current input type is "text" (visible state).
           const isPasswordField =
             clave === "password" || clave === "repassword";
           if (
@@ -17,10 +12,10 @@ export default function InputsCompartidos(props) {
             return (
               <div className="mb-1" key={clave}>
                 <label htmlFor={clave} className="form-label small fw-bold">
-                  {`${valor.placeholder} con el estate`}
+                  {`${valor.placeholder}`}
                 </label>
                 {isPasswordField ? (
-                  <div className="position-relative mb-2">
+                  <div className="position-relative mb-1">
                     <input
                       id={clave}
                       name={clave}
@@ -69,7 +64,8 @@ export default function InputsCompartidos(props) {
             return (
               <div className="mb-3" key={clave}>
                 <label htmlFor={clave} className="form-label small fw-bold">
-                  {valor.placeholder} con el state <em>*</em>
+                  {valor.placeholder}
+                  <em>*</em>
                 </label>
                 <select
                   id={clave}
@@ -80,7 +76,7 @@ export default function InputsCompartidos(props) {
                 >
                   {valor.opciones.map((el, pos) => (
                     <option value={el} key={pos}>
-                      {el} con el state
+                      {el}
                     </option>
                   ))}
                 </select>

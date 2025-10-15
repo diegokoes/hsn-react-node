@@ -7,8 +7,6 @@ export default function Login() {
   const msgObligatorio = "Este campo es obligatorio";
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginData, setLoginData] = useState({
-    //!TODO Usar el componente inputs-compartidos con login
-    //!TODO ^_ añadir informacion a los objetos email y password para conseguirlo
     email: {
       valor: "",
       valido: null,
@@ -53,9 +51,6 @@ export default function Login() {
     console.log("formValido:", loginData.formValido);
   }, [loginData.formValido]);
 
-  // handleOnChange: valida el campo que cambia, actualiza su valor,
-  // mensaje de validación y recalcula `formValido`.
-  // Parámetros: evento DOM del input.
   function handleOnChange(e) {
     const { id, value: valor } = e.target;
     const campo = loginData[id];
@@ -106,7 +101,7 @@ export default function Login() {
   return (
     <>
       {loginData.submitClick && !loginData.formValido && (
-        <ul className="messages mb-3">
+        <ul className="messages mb-2 mt-3">
           <li className="error-msg">
             <ul>
               <li>
@@ -194,6 +189,7 @@ export default function Login() {
                     <button
                       type="submit"
                       className="btn hsn-btn-orange-outline fst-italic"
+                      onClick={handleSubmit}
                     >
                       Iniciar Sesión
                     </button>

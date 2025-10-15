@@ -5,8 +5,6 @@ import "./registro.css";
 
 const msgObligatorio = "Este es un campo obligatorio";
 
-// Componente `Registro`: controla el formulario de registro, su estado local,
-// validaciones en el cliente y el envío de los datos al backend.
 export default function Registro() {
   const [formData, setFormData] = useState({
     tipoFormulario: "Particular",
@@ -287,9 +285,7 @@ export default function Registro() {
       formValido: true, // tengo que ver como lo manejo dinamicamente
     },
   });
-  // handleChange: actualiza el estado del campo que cambia, ejecuta las
-  // validaciones definidas y guarda `valor`, `mensajeValidacion` y `valido`.
-  // Parámetros: evento DOM del input.
+
   function handleChange(ev) {
     const valor =
       ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
@@ -374,9 +370,7 @@ export default function Registro() {
       valido
     );
   }
-  // normalizarUseStateData: toma la sección del estado (particular/empresa)
-  // y devuelve un objeto plano con solo los valores (`.valor`) aptos para
-  // enviar al servidor, descartando metadatos UI como validaciones o labels.
+
   function normalizarUseStateData(objCliente) {
     const ignorar = new Set([
       "repassword",
@@ -405,9 +399,6 @@ export default function Registro() {
     );
   }
 
-  // handleSubmit: evita el comportamiento por defecto del formulario,
-  // construye el payload normalizado y realiza la petición POST al backend.
-  // También maneja errores básicos de la petición.
   async function handleSubmit(ev) {
     ev.preventDefault();
     const url = "http://127.0.0.1:3000/auth/registro";
@@ -439,8 +430,6 @@ export default function Registro() {
     }
   }
 
-  // handleTogglePassword: alterna el tipo del input (password <-> text)
-  // para mostrar/ocultar la contraseña de forma local en el estado.
   function handleTogglePassword(campoId) {
     setFormData((prev) => {
       const tipoFormulario =
@@ -464,7 +453,7 @@ export default function Registro() {
   }
 
   return (
-    <section className="container my-4 my-md-5 d-flex justify-content-center">
+    <section className="container-xxl d-flex justify-content-center">
       <div className="mx-auto hsn-register-panel">
         <div className="row g-0">
           <div className="col-12 col-lg-5">

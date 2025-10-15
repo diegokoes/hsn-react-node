@@ -52,7 +52,7 @@ objetoRoutingCliente.post("/registro", async (req, resp) => {
     },
     process.env.FIRMA_JWT_SERVER,
     { expiresIn: "10min" }
-  )}`;
+  )}&tipo=${tipo}`;
 
   const bodyMail = JSON.stringify({
     Messages: [
@@ -82,10 +82,10 @@ objetoRoutingCliente.post("/registro", async (req, resp) => {
     body: bodyMail,
   });
 
-  const bodyRespuestaMAILJET = await envioEmail.json().catch(() => ({}));
+  const bodyRespuestaMAILJET = await envioEmail.json();
   if (
     !envioEmail.ok ||
-    bodyRespuestaMAILJET?.Messages?.[0]?.Status !== "success"
+    bodyRespuestaMAILJET.Messages?.[0].Status !== "success"
   ) {
     console.error(
       "Mailjet error:",
@@ -101,8 +101,67 @@ objetoRoutingCliente.post("/registro", async (req, resp) => {
   return resp.status(201).json({ ok: true, idCliente: resInsert.insertedId });
 });
 
-objetoRoutingCliente.get("/activarCuenta", async (req, res) => {
-  null;
+objetoRoutingCliente.get("/ActivarCuenta", async (req, res) => {
+  const { email, idCliente, token, tipo } = req.query;
+  console.log(req.query);
+
+  if (!email || !idCliente || !token) {
+    return res.status(400).send("Faltan datos obligatorios en la petición");
+  }
+  const payloadToken = jwt.verify(token, process.env.FIRMA_JWT_SERVER);
+  if (payloadToken.email !== email || payloadToken.idCliente !== idCliente) {
+    return res.status(400).send("Los datos del token no coinciden");
+  } else {
+    try {
+      await mongoose.connect(process.env.MONGODB_URL);
+
+      const coleccion = mongoose.connection.collection(tipo);
+
+      let resUpdate = await coleccion.updateOne(
+        { email: email, _id: mongoose.Types.ObjectId(idCliente) },
+        { $set: { cuentaActivada: true } }
+      );
+      res.status(200).redirect("http://localhost:5173/");
+    } catch (error) {
+      console.log("**** ERROR EN ACTIVAR CUENTA", error);
+      res.status(200).redirect("http://localhost:5173//error");
+    }
+  }
+});
+
+objetoRoutingCliente.post("/login", async (req, resp) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      // Do not reveal which field is missing
+      return resp.status(401).send("incorrect login");
+    }
+
+    await mongoose.connect(process.env.MONGODB_URL);
+
+    const particularesColl = mongoose.connection.collection("particulares");
+    const empresasColl = mongoose.connection.collection("empresas");
+
+    let cliente = await particularesColl.findOne({ email: email });
+    let tipo = "particulares";
+    if (!cliente) {
+      cliente = await empresasColl.findOne({ email: email });
+      tipo = "empresas";
+    }
+    const passwordMatch = await bcrypt.compare(
+      password,
+      cliente.password || ""
+    );
+
+    if (!cliente || !passwordMatch) {
+      return resp.status(401).send("incorrect login");
+    }
+
+    return resp.status(200).json({ ok: true, idCliente: cliente._id, tipo });
+  } catch (err) {
+    console.error("Login error:", err);
+    return resp.status(401).send("login incorrecto");
+  }
 });
 
 module.exports = objetoRoutingCliente;

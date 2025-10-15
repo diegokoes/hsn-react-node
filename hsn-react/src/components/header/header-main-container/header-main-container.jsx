@@ -7,12 +7,8 @@ export default function HeaderMainContainer() {
             <div className="logo d-flex align-items-center">
               <a
                 href="/"
-                title="NUTRICIÓN DEPORTIVA Y DIETÉTICA NATURAL"
                 className="d-inline-flex align-items-center text-decoration-none"
               >
-                <strong className="me-2 d-none d-xl-inline">
-                  NUTRICIÓN DEPORTIVA Y DIETÉTICA NATURAL
-                </strong>
                 <img
                   src="https://www.hsnstore.com/skin/frontend/default/hsnreborn/images/logoHSNReduced.svg"
                   alt="NUTRICIÓN DEPORTIVA Y DIETÉTICA NATURAL"
@@ -59,8 +55,8 @@ export default function HeaderMainContainer() {
               <img
                 src="https://www.hsnstore.com/skin/frontend/default/hsnreborn/images/logos/trustpilot-icon.png"
                 alt="Trustpilot"
-                width="32"
-                height="32"
+                width="44"
+                height="44"
                 className="me-2"
               />
               <a

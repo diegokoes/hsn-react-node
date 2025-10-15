@@ -49,6 +49,7 @@
   border-radius: 0 !important;
   border-color: #d1d5db;
   box-shadow: none;
+  height: 1.9rem;
 }
 .hsn-input-group-square .form-control,
 .hsn-input-group-square .btn,
