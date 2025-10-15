@@ -28,5 +28,6 @@ module.exports = (serverExpress) => {
 
   //* POR NORMA GENERAL LOS ULTIMOS LOS DE RUTAS PERSONALIZADAS
   serverExpress.use("/auth", objetoRoutingCliente);
-  serverExpress.use("/api/Tienda", objetoRoutingCliente);
+  // Rutas de la tienda (categorías, productos, etc.)
+  serverExpress.use("/api/Tienda", objetoRoutingTienda);
 };

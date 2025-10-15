@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./login.css";
 
 // Componente `Login`: controla el formulario de inicio de sesión,
@@ -239,9 +240,11 @@ export default function Login() {
                 </div>
 
                 <div className="d-grid gap-2 mb-4">
-                  <button type="button" className="btn hsn-btn-create fs-5">
-                    Crear una cuenta
-                  </button>
+                  <Link to="/auth/registro">
+                    <button type="button" className="btn hsn-btn-create fs-5">
+                      Crear una cuenta
+                    </button>
+                  </Link>
                 </div>
 
                 <div className="mb-2">

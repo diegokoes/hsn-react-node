@@ -16,7 +16,14 @@ objetoRoutingCliente.post("/registro", async (req, resp) => {
   const coleccion = mongoose.connection.collection(coleccionNombre);
   let resInsert = null;
   //! COMPROBAR ANTES QUE NO EXISTA EL EMAIL EN LA BD
-  const duplicadoEmail = await coleccion.findOne({ email: payload.email });
+  try {
+    const duplicadoEmail = await coleccion.findOne({ email: payload.email });
+  } catch (error) {
+    console.log("**** ERROR EN CONSULTA", error);
+    return resp.status(500).send("ERROR EN SERVIDOR");
+  } finally {
+    await mongoose.connection.close();
+  }
   if (duplicadoEmail) {
     console.log("*** EMAIL DUPLICADO *****");
     return resp
