@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputsCompartidos from "./components/label-inputs/inputs-compartidos";
 import LeftPanel from "./panel-izquierdo/panel-izquierdo";
 import "./registro.css";
@@ -132,7 +132,7 @@ export default function Registro() {
         tipo: "checkbox",
         labelSmall: "He leído y acepto la Política de privacidad",
       },
-      formValido: true, // tengo que ver como lo manejo dinamicamente
+      formValido: false, // calculado dinámicamente por useEffect
     },
     empresa: {
       empresa: {
@@ -282,9 +282,49 @@ export default function Registro() {
         tipo: "checkbox",
         labelSmall: "He leído y acepto la Política de privacidad",
       },
-      formValido: true, // tengo que ver como lo manejo dinamicamente
+      formValido: false,
     },
   });
+
+  useEffect(() => {
+    const tipo =
+      formData.tipoFormulario === "Particular" ? "particular" : "empresa";
+    const grupo = formData[tipo];
+
+    const camposEntries = Object.entries(grupo);
+
+    const ignorar = new Set([
+      "recibirPromociones",
+      "formValido",
+      "codigoPlanAmigo",
+    ]);
+
+    let esValido = true;
+    for (const [key, def] of camposEntries) {
+      if (ignorar.has(key)) continue;
+
+      if (def && typeof def === "object") {
+        const tieneValid = Object.prototype.hasOwnProperty.call(def, "valido");
+        if (tieneValid) {
+          if (def.valido !== true) {
+            esValido = false;
+            break;
+          }
+        }
+      }
+    }
+
+    if (grupo.formValido !== esValido) {
+      setFormData((prev) => ({
+        ...prev,
+        [tipo]: {
+          ...prev[tipo],
+          formValido: esValido,
+        },
+      }));
+    }
+    console.log("formValido:", grupo.formValido);
+  }, [formData.tipoFormulario, formData.particular, formData.empresa]);
 
   function handleChange(ev) {
     const valor =
@@ -330,6 +370,24 @@ export default function Registro() {
       } else {
         valido = true;
       }
+    } else if (campo.tipo === "checkbox") {
+      const esObligatorio =
+        campo.validaciones &&
+        campo.validaciones.obligatorio &&
+        campo.validaciones.obligatorio[0] === true;
+
+      if (esObligatorio) {
+        if (valor === true) {
+          valido = true;
+          mensajeValidacion = "";
+        } else {
+          valido = false;
+          mensajeValidacion = campo.validaciones.obligatorio[1];
+        }
+      } else {
+        valido = true;
+        mensajeValidacion = "";
+      }
     } else if (campo.tipo === "select") {
       if (campo.validaciones.obligatorio[0] === true && valor === "") {
         mensajeValidacion = campo.validaciones.obligatorio[1];
@@ -374,6 +432,8 @@ export default function Registro() {
   function normalizarUseStateData(objCliente) {
     const ignorar = new Set([
       "repassword",
+      "aceptaTerminos",
+      "confirmarRazonSocial",
       "validaciones",
       "mensajeValidacion",
       "tipo",
