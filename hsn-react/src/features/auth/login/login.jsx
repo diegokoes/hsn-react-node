@@ -35,18 +35,32 @@ export default function Login() {
     formValido: false,
   });
 
-  // handleSubmit: previene el envío por defecto y marca que se ha intentado
-  // enviar el formulario para mostrar errores si hay campos inválidos.
   async function handleSubmit(e) {
     e.preventDefault();
+
+    const { formValido, email, password } = loginData;
+    if (formValido) {
+      const url = "http://127.0.0.1:3000/auth/login";
+
+      const respuesta = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.valor,
+          password: password.valor,
+        }),
+      });
+    } else {
+      console.log("Formulario no válido, no se envían datos.");
+    }
     setLoginData((prev) => ({
       ...prev,
       submitClick: true,
     }));
   }
 
-  // Efecto: observa `formValido` para acciones de depuración o efectos
-  // secundarios cuando cambia el estado de validez del formulario.
   useEffect(() => {
     console.log("formValido:", loginData.formValido);
   }, [loginData.formValido]);
