@@ -133,7 +133,6 @@ objetoRoutingCliente.post("/login", async (req, resp) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      // Do not reveal which field is missing
       return resp.status(401).send("incorrect login");
     }
 
