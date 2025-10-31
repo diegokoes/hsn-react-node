@@ -1,4 +1,6 @@
 export default function HeaderMainContainer() {
+  // const { pedido } = useGlobalState();
+  //!TODO meterle logica para pintar el numero de pedidos
   return (
     <div className="header_main_container py-2">
       <div className="container">
@@ -49,7 +51,6 @@ export default function HeaderMainContainer() {
             </div>
           </div>
 
-          {/* Trustedshop rating */}
           <div className="col-auto d-none d-md-flex align-items-center">
             <div className="trustedshop d-flex align-items-center">
               <img

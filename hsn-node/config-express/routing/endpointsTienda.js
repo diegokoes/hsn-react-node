@@ -63,7 +63,7 @@ objetoRoutingTienda.get("/categorias", async (req, res) => {
 
 // GET /Productos - Recupera productos por pathCat
 // - Si pathCat es de 2º nivel (contiene 1 guion, ej: "2-3") => productos cuyo pathCategoria COMIENZA por `${pathCat}-`
-// - Si es de 3º nivel (dos guiones, ej: "2-3-4") => productos cuyo pathCategoria COINCIDE exactamente
+// - Si es de 3º nivel (dos guiones, ej: " 2-3-4") => productos cuyo pathCategoria COINCIDE exactamente
 objetoRoutingTienda.get("/Productos", async (req, res) => {
   try {
     // 1) Leemos pathCategoria desde querystring

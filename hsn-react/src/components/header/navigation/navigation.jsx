@@ -12,17 +12,13 @@ export default function Navigation() {
     let cancelado = false;
     (async () => {
       try {
-        const respuesta = await fetch(
-          "http://localhost:3000/api/Tienda/Categorias?pathCat=principales",
-          { method: "GET" }
-        );
+        const respuesta = await fetch("http://localhost:3000/api/Tienda/Categorias?pathCat=principales", {
+          method: "GET",
+        });
         const cuerpo = await respuesta.json();
         if (!cancelado) {
-          if (cuerpo.codigo !== 0)
-            throw new Error(cuerpo.mensaje || "Error categorías");
-          setCategorias(
-            Array.isArray(cuerpo.categorias) ? cuerpo.categorias : []
-          );
+          if (cuerpo.codigo !== 0) throw new Error(cuerpo.mensaje || "Error categorías");
+          setCategorias(Array.isArray(cuerpo.categorias) ? cuerpo.categorias : []);
         }
       } catch (e) {
         if (!cancelado) setCategorias([]);
@@ -43,17 +39,12 @@ export default function Navigation() {
       }
       try {
         const respuesta = await fetch(
-          `http://localhost:3000/api/Tienda/Categorias?pathCat=${encodeURIComponent(
-            activeParent
-          )}`
+          `http://localhost:3000/api/Tienda/Categorias?pathCat=${encodeURIComponent(activeParent)}`
         );
-        if (!respuesta.ok)
-          throw new Error(`error al obtener subcategorias ${respuesta.status}`);
+        if (!respuesta.ok) throw new Error(`error al obtener subcategorias ${respuesta.status}`);
         const cuerpoResp = await respuesta.json();
         if (cuerpoResp.codigo !== 0)
-          throw new Error(
-            `error en la respuesta al obtener subcategorias, ${cuerpoResp.mensaje}`
-          );
+          throw new Error(`error en la respuesta al obtener subcategorias, ${cuerpoResp.mensaje}`);
 
         const ordenadas = (cuerpoResp.categorias || [])
           .slice()
@@ -63,13 +54,8 @@ export default function Navigation() {
           if (/^\d+-\d+$/.test(categoria.pathCategoria)) {
             procesadas.push({ ...categoria, subcategorias: [] });
           } else {
-            const clave = categoria.pathCategoria
-              .split("-")
-              .slice(0, 2)
-              .join("-");
-            const padre = procesadas.find((c) =>
-              new RegExp(`${clave}$`).test(c.pathCategoria)
-            );
+            const clave = categoria.pathCategoria.split("-").slice(0, 2).join("-");
+            const padre = procesadas.find((c) => new RegExp(`${clave}$`).test(c.pathCategoria));
             if (padre) padre.subcategorias.push(categoria);
           }
         }
@@ -144,11 +130,7 @@ export default function Navigation() {
                       onMouseLeave={handleLeaveAll}
                     >
                       <Link
-                        className={`nav-link px-3 ${
-                          activeParent === categoria.pathCategoria
-                            ? "active"
-                            : ""
-                        }`}
+                        className={`nav-link px-3 ${activeParent === categoria.pathCategoria ? "active" : ""}`}
                         style={{
                           fontSize: "0.8rem",
                           fontWeight: 700,
@@ -156,16 +138,10 @@ export default function Navigation() {
                           paddingTop: "0.35rem",
                           paddingBottom: "0.35rem",
                         }}
-                        to={`/Productos/${encodeURIComponent(
-                          categoria.pathCategoria
-                        )}`}
+                        to={`/Productos/${encodeURIComponent(categoria.pathCategoria)}`}
                       >
                         <span className="catsppales">
-                          {categoria.nombreCategoria}{" "}
-                          <i
-                            className="bi bi-chevron-down"
-                            aria-hidden="true"
-                          ></i>
+                          {categoria.nombreCategoria} <i className="bi bi-chevron-down" aria-hidden="true"></i>
                         </span>
                       </Link>
                     </li>
@@ -193,16 +169,10 @@ export default function Navigation() {
           }}
         >
           <div className="container py-2">
-            <div className="text-uppercase small text-muted mb-2">
-              Selecciona categoría
-            </div>
+            <div className="text-uppercase small text-muted mb-2">Selecciona categoría</div>
             {(() => {
-              const withChildren = subcats.filter(
-                (s) => (s.subcategorias?.length || 0) > 0
-              );
-              const leaves = subcats.filter(
-                (s) => (s.subcategorias?.length || 0) === 0
-              );
+              const withChildren = subcats.filter((s) => (s.subcategorias?.length || 0) > 0);
+              const leaves = subcats.filter((s) => (s.subcategorias?.length || 0) === 0);
 
               return (
                 <>
@@ -210,8 +180,7 @@ export default function Navigation() {
                     <div
                       style={{
                         display: "grid",
-                        gridTemplateColumns:
-                          "repeat(auto-fit, minmax(220px, 1fr))",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
                         gap: "0.5rem 1rem",
                         alignItems: "start",
                       }}
@@ -220,9 +189,7 @@ export default function Navigation() {
                         <div key={pos}>
                           <div className="fw-semibold mb-1">
                             <Link
-                              to={`/Productos/${encodeURIComponent(
-                                subcat.pathCategoria
-                              )}`}
+                              to={`/Productos/${encodeURIComponent(subcat.pathCategoria)}`}
                               className="text-decoration-none text-dark"
                               style={{ fontSize: "0.9rem" }}
                             >
@@ -233,9 +200,7 @@ export default function Navigation() {
                             {subcat.subcategorias.map((tercat, tercpos) => (
                               <li key={tercpos} className="mb-1">
                                 <Link
-                                  to={`/Productos/${encodeURIComponent(
-                                    tercat.pathCategoria
-                                  )}`}
+                                  to={`/Productos/${encodeURIComponent(tercat.pathCategoria)}`}
                                   className="text-decoration-none"
                                   style={{
                                     font: 'normal 10px "Roboto","Open Sans",sans-serif',
@@ -254,9 +219,7 @@ export default function Navigation() {
 
                   {leaves.length > 0 && (
                     <div className="mt-3">
-                      <div className="text-uppercase small text-muted mb-1">
-                        Otras categorías
-                      </div>
+                      <div className="text-uppercase small text-muted mb-1">Otras categorías</div>
                       <div
                         style={{
                           columnWidth: 200,
@@ -268,9 +231,7 @@ export default function Navigation() {
                         {leaves.map((leaf, i) => (
                           <div key={i} style={{ breakInside: "avoid-column" }}>
                             <Link
-                              to={`/Productos/${encodeURIComponent(
-                                leaf.pathCategoria
-                              )}`}
+                              to={`/Productos/${encodeURIComponent(leaf.pathCategoria)}`}
                               className="text-decoration-none"
                               style={{
                                 display: "inline-block",

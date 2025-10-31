@@ -26,9 +26,7 @@ objetoRoutingCliente.post("/registro", async (req, resp) => {
   }
   if (duplicadoEmail) {
     console.log("*** EMAIL DUPLICADO *****");
-    return resp
-      .status(200)
-      .send("EL EMAIL YA ESTA REGISTRADO EN LA BASE DE DATOS!!");
+    return resp.status(200).send("EL EMAIL YA ESTA REGISTRADO EN LA BASE DE DATOS!!");
   } else {
     resInsert = await coleccion.insertOne({
       ...payload,
@@ -90,19 +88,9 @@ objetoRoutingCliente.post("/registro", async (req, resp) => {
   });
 
   const bodyRespuestaMAILJET = await envioEmail.json();
-  if (
-    !envioEmail.ok ||
-    bodyRespuestaMAILJET.Messages?.[0].Status !== "success"
-  ) {
-    console.error(
-      "Mailjet error:",
-      envioEmail.status,
-      envioEmail.statusText,
-      bodyRespuestaMAILJET
-    );
-    return resp
-      .status(502)
-      .json({ error: "email_not_sent", details: bodyRespuestaMAILJET });
+  if (!envioEmail.ok || bodyRespuestaMAILJET.Messages?.[0].Status !== "success") {
+    console.error("Mailjet error:", envioEmail.status, envioEmail.statusText, bodyRespuestaMAILJET);
+    return resp.status(502).json({ error: "email_not_sent", details: bodyRespuestaMAILJET });
   }
 
   return resp.status(201).json({ ok: true, idCliente: resInsert.insertedId });
@@ -154,10 +142,7 @@ objetoRoutingCliente.post("/login", async (req, resp) => {
       cliente = await empresasColl.findOne({ email: email });
       tipo = "empresas";
     }
-    const passwordMatch = await bcrypt.compare(
-      password,
-      cliente.password || ""
-    );
+    const passwordMatch = await bcrypt.compare(password, cliente.password || "");
 
     if (!cliente || !passwordMatch) {
       return resp.status(401).send("incorrect login");
