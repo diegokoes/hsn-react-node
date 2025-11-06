@@ -1,3 +1,4 @@
+import Activacion from "@/features/auth/activation/activation";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
@@ -26,12 +27,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     loader: (request, params) => {
-      console.log(
-        "ejecutando el loader antes de renderizar. ..\nrequest:",
-        request,
-        "\nparams:",
-        params
-      );
+      console.log("ejecutando el loader antes de renderizar. ..\nrequest:", request, "\nparams:", params);
     },
     errorElement: <NotFound />,
     children: [
@@ -41,6 +37,7 @@ const router = createBrowserRouter([
         children: [
           { path: "login", element: <Login /> },
           { path: "registro", element: <Registro /> },
+          { path: "activacion", element: <Activacion /> },
         ],
       },
 
