@@ -17,10 +17,7 @@ export default function Registro() {
           obligatorio: [true, `▲${msgObligatorio}`],
           minLength: [3, "▲ El nombre debe tener al menos 3 caracteres."],
           maxLength: [30, "▲ El nombre no puede tener más de 30 caracteres."],
-          patron: [
-            /^[a-zA-ZÀ-ÿ\s]{3,30}$/,
-            "El nombre solo puede contener letras y espacios.",
-          ],
+          patron: [/^[a-zA-ZÀ-ÿ\s]{3,30}$/, "El nombre solo puede contener letras y espacios."],
         },
         mensajeValidacion: "",
         placeholder: "Nombre",
@@ -32,14 +29,8 @@ export default function Registro() {
         validaciones: {
           obligatorio: [true, `▲${msgObligatorio}`],
           minLength: [3, "▲ Los apellidos deben tener al menos 3 caracteres."],
-          maxLength: [
-            30,
-            "▲ Los apellidos no pueden tener más de 30 caracteres.",
-          ],
-          patron: [
-            /^[a-zA-ZÀ-ÿ\s]{3,30}$/,
-            "▲ Los apellidos solo pueden contener letras y espacios.",
-          ],
+          maxLength: [30, "▲ Los apellidos no pueden tener más de 30 caracteres."],
+          patron: [/^[a-zA-ZÀ-ÿ\s]{3,30}$/, "▲ Los apellidos solo pueden contener letras y espacios."],
         },
         mensajeValidacion: "",
         placeholder: "Apellidos",
@@ -50,10 +41,7 @@ export default function Registro() {
         tipo: "email",
         validaciones: {
           obligatorio: [true, `▲${msgObligatorio}`],
-          patron: [
-            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-            "▲ Introduce un email válido.",
-          ],
+          patron: [/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, "▲ Introduce un email válido."],
         },
         mensajeValidacion: "",
         placeholder: "Email",
@@ -65,13 +53,7 @@ export default function Registro() {
           obligatorio: [true, `▲ ${msgObligatorio}`],
         },
         tipo: "select",
-        opciones: [
-          "",
-          "Femenino",
-          "Masculino",
-          "No binario",
-          "Prefiero no decirlo",
-        ],
+        opciones: ["", "Femenino", "Masculino", "No binario", "Prefiero no decirlo"],
         placeholder: "Género",
       },
       password: {
@@ -80,10 +62,7 @@ export default function Registro() {
         validaciones: {
           obligatorio: [true, `▲${msgObligatorio}`],
           minLength: [8, "▲ La contraseña debe tener al menos 8 caracteres."],
-          maxLength: [
-            20,
-            "▲ La contraseña no puede tener más de 20 caracteres.",
-          ],
+          maxLength: [20, "▲ La contraseña no puede tener más de 20 caracteres."],
           patron: [
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,80}$/,
             "▲ La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.",
@@ -107,10 +86,7 @@ export default function Registro() {
         valido: null,
         validaciones: {
           obligatorio: [false],
-          patron: [
-            /^[0-9]{5}$/,
-            "▲ El código de plan amigo debe tener 5 dígitos.",
-          ],
+          patron: [/^[0-9]{5}$/, "▲ El código de plan amigo debe tener 5 dígitos."],
         },
         placeholder: "Código Plan Amigo",
         tipo: "text",
@@ -120,8 +96,7 @@ export default function Registro() {
         valor: false,
         tipo: "checkbox",
         labelBold: "Enviar promociones especiales para clientes",
-        labelSmall:
-          "Quiero recibir promociones exclusivas y contenidos personalizados",
+        labelSmall: "Quiero recibir promociones exclusivas y contenidos personalizados",
       },
       aceptaTerminos: {
         valor: false,
@@ -140,22 +115,12 @@ export default function Registro() {
         valido: null,
         validaciones: {
           obligatorio: [true, "▲ Este es un campo obligartorio"],
-          minLength: [
-            3,
-            "El nombre de la empresa debe tener al menos 3 caracteres.",
-          ],
-          maxLength: [
-            60,
-            "El nombre de la empresa no puede tener más de 60 caracteres.",
-          ],
-          patron: [
-            /^[a-zA-ZÀ-ÿ\s0-9.,&-]{3,60}$/,
-            "El nombre de la empresa contiene caracteres no válidos.",
-          ],
+          minLength: [3, "El nombre de la empresa debe tener al menos 3 caracteres."],
+          maxLength: [60, "El nombre de la empresa no puede tener más de 60 caracteres."],
+          patron: [/^[a-zA-ZÀ-ÿ\s0-9.,&-]{3,60}$/, "El nombre de la empresa contiene caracteres no válidos."],
         },
         placeholder: "Empresa",
-        extraInfo:
-          "Las facturas se emitirán a la razón social especificada en el campo'Empresa'.",
+        extraInfo: "Las facturas se emitirán a la razón social especificada en el campo'Empresa'.",
         tipo: "text",
       },
       cifNif: {
@@ -188,10 +153,7 @@ export default function Registro() {
           obligatorio: [true, `▲ ${msgObligatorio}`],
           minLength: [3, "▲ El nombre debe tener al menos 3 caracteres."],
           maxLength: [30, "▲ El nombre no puede tener más de 30 caracteres."],
-          patron: [
-            /^[a-zA-ZÀ-ÿ\s]{3,30}$/,
-            "▲ El nombre solo puede contener letras y espacios.",
-          ],
+          patron: [/^[a-zA-ZÀ-ÿ\s]{3,30}$/, "▲ El nombre solo puede contener letras y espacios."],
         },
         placeholder: "Nombre",
         tipo: "text",
@@ -202,14 +164,8 @@ export default function Registro() {
         validaciones: {
           obligatorio: [true, `▲ ${msgObligatorio}`],
           minLength: [3, "▲ Los apellidos deben tener al menos 3 caracteres."],
-          maxLength: [
-            30,
-            "▲ Los apellidos no pueden tener más de 30 caracteres.",
-          ],
-          patron: [
-            /^[a-zA-ZÀ-ÿ\s]{3,30}$/,
-            "▲ Los apellidos solo pueden contener letras y espacios.",
-          ],
+          maxLength: [30, "▲ Los apellidos no pueden tener más de 30 caracteres."],
+          patron: [/^[a-zA-ZÀ-ÿ\s]{3,30}$/, "▲ Los apellidos solo pueden contener letras y espacios."],
         },
         placeholder: "Apellidos",
         tipo: "text",
@@ -219,10 +175,7 @@ export default function Registro() {
         valido: null,
         validaciones: {
           obligatorio: [true, `▲ ${msgObligatorio}`],
-          patron: [
-            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            "▲ Introduce un email válido.",
-          ],
+          patron: [/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, "▲ Introduce un email válido."],
         },
         placeholder: "Email",
         tipo: "email",
@@ -233,10 +186,7 @@ export default function Registro() {
         validaciones: {
           obligatorio: [true, `▲ ${msgObligatorio}`],
           minLength: [8, "▲ La contraseña debe tener al menos 8 caracteres."],
-          maxLength: [
-            20,
-            "▲ La contraseña no puede tener más de 20 caracteres.",
-          ],
+          maxLength: [20, "▲ La contraseña no puede tener más de 20 caracteres."],
           patron: [
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,80}$/,
             "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.",
@@ -259,8 +209,7 @@ export default function Registro() {
         valor: false,
         tipo: "checkbox",
         labelBold: "Enviar promociones especiales para clientes",
-        labelSmall:
-          "Quiero recibir promociones exclusivas y contenidos personalizados",
+        labelSmall: "Quiero recibir promociones exclusivas y contenidos personalizados",
       },
       confirmarRazonSocial: {
         valor: false,
@@ -269,8 +218,7 @@ export default function Registro() {
           obligatorio: [true, `▲ ${msgObligatorio}`],
         },
         labelBold: " Confirmación razón social ",
-        labelSmall:
-          "Las facturas se emitirán a la razón social especificada en el campo 'Empresa'.",
+        labelSmall: "Las facturas se emitirán a la razón social especificada en el campo 'Empresa'.",
         tipo: "checkbox",
       },
       aceptaTerminos: {
@@ -287,17 +235,12 @@ export default function Registro() {
   });
 
   useEffect(() => {
-    const tipo =
-      formData.tipoFormulario === "Particular" ? "particular" : "empresa";
+    const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     const grupo = formData[tipo];
 
     const camposEntries = Object.entries(grupo);
 
-    const ignorar = new Set([
-      "recibirPromociones",
-      "formValido",
-      "codigoPlanAmigo",
-    ]);
+    const ignorar = new Set(["recibirPromociones", "formValido", "codigoPlanAmigo"]);
 
     let esValido = true;
     for (const [key, def] of camposEntries) {
@@ -327,44 +270,26 @@ export default function Registro() {
   }, [formData.tipoFormulario, formData.particular, formData.empresa]);
 
   function handleChange(ev) {
-    const valor =
-      ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
+    const valor = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
     const id = ev.target.id;
-    const tipoFormulario =
-      formData.tipoFormulario === "Particular" ? "particular" : "empresa";
+    const tipoFormulario = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     const campo = formData[tipoFormulario][id];
     let mensajeValidacion = "";
     let valido = null;
-    if (
-      campo.tipo === "text" ||
-      campo.tipo === "email" ||
-      campo.tipo === "password"
-    ) {
+    if (campo.tipo === "text" || campo.tipo === "email" || campo.tipo === "password") {
       if (campo.validaciones.obligatorio[0] === true && valor.trim() === "") {
         mensajeValidacion = campo.validaciones.obligatorio[1];
         valido = false;
-      } else if (
-        campo.validaciones.minLength &&
-        valor.length < campo.validaciones.minLength[0]
-      ) {
+      } else if (campo.validaciones.minLength && valor.length < campo.validaciones.minLength[0]) {
         mensajeValidacion = campo.validaciones.minLength[1];
         valido = false;
-      } else if (
-        campo.validaciones.maxLength &&
-        valor.length > campo.validaciones.maxLength[0]
-      ) {
+      } else if (campo.validaciones.maxLength && valor.length > campo.validaciones.maxLength[0]) {
         mensajeValidacion = campo.validaciones.maxLength[1];
         valido = false;
-      } else if (
-        campo.validaciones.patron &&
-        !campo.validaciones.patron[0].test(valor)
-      ) {
+      } else if (campo.validaciones.patron && !campo.validaciones.patron[0].test(valor)) {
         mensajeValidacion = campo.validaciones.patron[1];
         valido = false;
-      } else if (
-        campo.validaciones.coincide &&
-        valor !== formData[tipoFormulario].password.valor
-      ) {
+      } else if (campo.validaciones.coincide && valor !== formData[tipoFormulario].password.valor) {
         valido = false;
         mensajeValidacion = campo.validaciones.coincide;
       } else {
@@ -372,9 +297,7 @@ export default function Registro() {
       }
     } else if (campo.tipo === "checkbox") {
       const esObligatorio =
-        campo.validaciones &&
-        campo.validaciones.obligatorio &&
-        campo.validaciones.obligatorio[0] === true;
+        campo.validaciones && campo.validaciones.obligatorio && campo.validaciones.obligatorio[0] === true;
 
       if (esObligatorio) {
         if (valor === true) {
@@ -392,10 +315,7 @@ export default function Registro() {
       if (campo.validaciones.obligatorio[0] === true && valor === "") {
         mensajeValidacion = campo.validaciones.obligatorio[1];
         valido = false;
-      } else if (
-        campo.validaciones.opciones &&
-        !campo.validaciones.opciones.includes(valor)
-      ) {
+      } else if (campo.validaciones.opciones && !campo.validaciones.opciones.includes(valor)) {
         mensajeValidacion = "▲ Selecciona una opción válida.";
         valido = false;
       } else {
@@ -417,16 +337,7 @@ export default function Registro() {
       },
     }));
 
-    console.log(
-      "input:",
-      id,
-      "\nvalor:",
-      valor,
-      "\nmensajeValidacion:",
-      mensajeValidacion,
-      "\nvalido:",
-      valido
-    );
+    console.log("input:", id, "\nvalor:", valor, "\nmensajeValidacion:", mensajeValidacion, "\nvalido:", valido);
   }
 
   function normalizarUseStateData(objCliente) {
@@ -448,13 +359,7 @@ export default function Registro() {
 
     return Object.fromEntries(
       Object.entries(objCliente)
-        .filter(
-          ([key, val]) =>
-            val &&
-            typeof val === "object" &&
-            "valor" in val &&
-            !ignorar.has(key)
-        )
+        .filter(([key, val]) => val && typeof val === "object" && "valor" in val && !ignorar.has(key))
         .map(([key, val]) => [key, val.valor])
     );
   }
@@ -462,8 +367,7 @@ export default function Registro() {
   async function handleSubmit(ev) {
     ev.preventDefault();
     const url = "http://127.0.0.1:3000/auth/registro";
-    const tipo =
-      formData.tipoFormulario === "Particular" ? "particular" : "empresa";
+    const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     if (!formData[tipo].formValido) {
       console.log("no es valido, no se hace submit");
       return;
@@ -492,8 +396,7 @@ export default function Registro() {
 
   function handleTogglePassword(campoId) {
     setFormData((prev) => {
-      const tipoFormulario =
-        prev.tipoFormulario === "Particular" ? "particular" : "empresa";
+      const tipoFormulario = prev.tipoFormulario === "Particular" ? "particular" : "empresa";
       const campo = prev[tipoFormulario][campoId];
       if (!campo || (campo.tipo !== "password" && campo.tipo !== "text")) {
         return prev;
@@ -527,15 +430,9 @@ export default function Registro() {
                   <input type="hidden" name="success_url" value="" />
                   <input type="hidden" name="error_url" value="" />
                   <input type="hidden" name="form_key" value="" />
-                  <div className="mb-2 small fw-bold ">
-                    Datos de identificación de cuenta
-                  </div>
+                  <div className="mb-2 small fw-bold ">Datos de identificación de cuenta</div>
                   <div className="mb-2">
-                    <div
-                      className="hsn-client-type"
-                      role="radiogroup"
-                      aria-label="Tipo de cliente"
-                    >
+                    <div className="hsn-client-type" role="radiogroup" aria-label="Tipo de cliente">
                       <input
                         type="radio"
                         name="client_type"
@@ -549,10 +446,7 @@ export default function Registro() {
                           }))
                         }
                       />
-                      <label
-                        htmlFor="personal"
-                        className="hsn-client-type-option"
-                      >
+                      <label htmlFor="personal" className="hsn-client-type-option">
                         Particular
                       </label>
                       <input
@@ -568,27 +462,20 @@ export default function Registro() {
                         }
                       />
 
-                      <label
-                        htmlFor="company"
-                        className="hsn-client-type-option"
-                      >
+                      <label htmlFor="company" className="hsn-client-type-option">
                         Empresa
                       </label>
                     </div>
                     {formData.tipoFormulario === "Particular" && (
                       <p className="hsn-warning mt-1 mb-2 small fw-bold">
-                        <em>* </em>Atención: si eres autónomo o empresa y
-                        necesitas una factura selecciona la opción EMPRESA.
+                        <em>* </em>Atención: si eres autónomo o empresa y necesitas una factura selecciona la opción
+                        EMPRESA.
                       </p>
                     )}
                   </div>
 
                   <InputsCompartidos
-                    datosParticular={
-                      formData.tipoFormulario === "Particular"
-                        ? formData.particular
-                        : formData.empresa
-                    }
+                    datosParticular={formData.tipoFormulario === "Particular" ? formData.particular : formData.empresa}
                     handleChange={handleChange}
                     onTogglePassword={handleTogglePassword}
                     handleSubmit={handleSubmit}

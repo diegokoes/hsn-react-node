@@ -16,8 +16,7 @@ objetoRoutingTienda.get("/Categorias", async (req, res) => {
     // 2) Construimos el patrón de búsqueda según el valor de pathCat
     //    - principales => solo dígitos (raíz)
     //    - otro valor => empieza por `${pathCat}-` y sigue con uno o más dígitos
-    const patronBusqueda =
-      pathCat === "principales" ? /^\d+$/ : new RegExp(`^${pathCat}-[0-9]+`);
+    const patronBusqueda = pathCat === "principales" ? /^\d+$/ : new RegExp(`^${pathCat}-[0-9]+`);
 
     // 3) Conectamos a MongoDB (URI en MONGODB_URL) y obtenemos la colección
     await mongoose.connect(process.env.MONGODB_URL);
@@ -47,8 +46,7 @@ objetoRoutingTienda.get("/Categorias", async (req, res) => {
 objetoRoutingTienda.get("/categorias", async (req, res) => {
   try {
     const pathCat = req.query.pathCat;
-    const patronBusqueda =
-      pathCat === "principales" ? /^\d+$/ : new RegExp(`^${pathCat}-[0-9]+`);
+    const patronBusqueda = pathCat === "principales" ? /^\d+$/ : new RegExp(`^${pathCat}-[0-9]+`);
     await mongoose.connect(process.env.MONGODB_URL);
     const categorias = await mongoose.connection
       .collection("categorias")
@@ -85,9 +83,7 @@ objetoRoutingTienda.get("/Productos", async (req, res) => {
 
     // 4) Respuesta OK con array de productos
     console.log(`productosArray recuperados: ${JSON.stringify(productos)}`);
-    res
-      .status(200)
-      .send({ codigo: 0, mensaje: "productos recuperados ok...", productos });
+    res.status(200).send({ codigo: 0, mensaje: "productos recuperados ok...", productos });
   } catch (error) {
     // 5) Manejo de errores
     console.log("error recuperar productos  ", error);
