@@ -123,11 +123,19 @@ objetoRoutingCliente.post("/login", async (req, resp) => {
     const passwordsMatch = await bcrypt.compare(password, userData.password);
 
     if (!passwordsMatch) return resp.status(400).send("Bad login");
-
+    //!TODO send email to activate it
     if (!userData.accountActivated) return resp.status(400).send("Your account is not activated");
 
     if (email === userData.email && passwordsMatch) {
-      return resp.redirect("http://localhost:5173");
+      const sessionToken = jwt.sign(
+        {
+          email,
+          idCliente: userData._id.toString(),
+        },
+        process.env.JWT_SIGNING_KEY,
+        { expiresIn: "2h" }
+      );
+      return resp.status(200).json({ ok: true, userData, sessionToken });
     }
   } catch (err) {
     return resp.status(500).send("Error with MongoDB ... ", err);

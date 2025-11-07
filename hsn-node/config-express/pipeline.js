@@ -31,3 +31,8 @@ module.exports = (serverExpress) => {
   // Rutas de la tienda (categorías, productos, etc.)
   serverExpress.use("/api/Tienda", objetoRoutingTienda);
 };
+
+await mongoose.connect(process.env.MONGODB_URL);
+const collection = mongoose.connection.collection("collectionName");
+
+await mongoose.connection.close();
