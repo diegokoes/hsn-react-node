@@ -6,6 +6,8 @@ import "./registro.css";
 const msgObligatorio = "Este es un campo obligatorio";
 
 export default function Registro() {
+  //#region ---- STATE ----
+
   const [formData, setFormData] = useState({
     tipoFormulario: "Particular",
     particular: {
@@ -233,7 +235,8 @@ export default function Registro() {
       formValido: false,
     },
   });
-
+  //#endregion
+  //#region ---- EFFECTS ----
   useEffect(() => {
     const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     const grupo = formData[tipo];
@@ -268,7 +271,58 @@ export default function Registro() {
     }
     console.log("formValido:", grupo.formValido);
   }, [formData.tipoFormulario, formData.particular, formData.empresa]);
+  //#endregion
+  //#region ---- HANDLERS ----
+  async function handleSubmit(ev) {
+    ev.preventDefault();
+    const url = "http://localhost:3000/auth/registro";
+    const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
+    if (!formData[tipo].formValido) {
+      console.log("no es valido, no se hace submit");
+      return;
+    }
 
+    const payload = normalizarUseStateData(formData[tipo]);
+    try {
+      console.log(payload);
+      const respuesta = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ payload, tipo }),
+      });
+      if (respuesta.ok) {
+        console.log("recibido de NODEJS", respuesta.status);
+      } else {
+        const text = await respuesta.text().catch(() => "");
+        console.error("Error en respuesta:", respuesta.status, text);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function handleTogglePassword(campoId) {
+    setFormData((prev) => {
+      const tipoFormulario = prev.tipoFormulario === "Particular" ? "particular" : "empresa";
+      const campo = prev[tipoFormulario][campoId];
+      if (!campo || (campo.tipo !== "password" && campo.tipo !== "text")) {
+        return prev;
+      }
+      const nuevoTipo = campo.tipo === "password" ? "text" : "password";
+      return {
+        ...prev,
+        [tipoFormulario]: {
+          ...prev[tipoFormulario],
+          [campoId]: {
+            ...campo,
+            tipo: nuevoTipo,
+          },
+        },
+      };
+    });
+  }
   function handleChange(ev) {
     const valor = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
     const id = ev.target.id;
@@ -340,6 +394,8 @@ export default function Registro() {
     console.log("input:", id, "\nvalor:", valor, "\nmensajeValidacion:", mensajeValidacion, "\nvalido:", valido);
   }
 
+  //#endregion
+  //#region ---- UTILITIES ----
   function normalizarUseStateData(objCliente) {
     const ignorar = new Set([
       "repassword",
@@ -363,57 +419,7 @@ export default function Registro() {
         .map(([key, val]) => [key, val.valor])
     );
   }
-
-  async function handleSubmit(ev) {
-    ev.preventDefault();
-    const url = "http://127.0.0.1:3000/auth/registro";
-    const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
-    if (!formData[tipo].formValido) {
-      console.log("no es valido, no se hace submit");
-      return;
-    }
-
-    const payload = normalizarUseStateData(formData[tipo]);
-    try {
-      console.log(payload);
-      const respuesta = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ payload, tipo }),
-      });
-      if (respuesta.ok) {
-        console.log("recibido de NODEJS", respuesta.status);
-      } else {
-        const text = await respuesta.text().catch(() => "");
-        console.error("Error en respuesta:", respuesta.status, text);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  function handleTogglePassword(campoId) {
-    setFormData((prev) => {
-      const tipoFormulario = prev.tipoFormulario === "Particular" ? "particular" : "empresa";
-      const campo = prev[tipoFormulario][campoId];
-      if (!campo || (campo.tipo !== "password" && campo.tipo !== "text")) {
-        return prev;
-      }
-      const nuevoTipo = campo.tipo === "password" ? "text" : "password";
-      return {
-        ...prev,
-        [tipoFormulario]: {
-          ...prev[tipoFormulario],
-          [campoId]: {
-            ...campo,
-            tipo: nuevoTipo,
-          },
-        },
-      };
-    });
-  }
+  //#endregion
 
   return (
     <section className="container-xxl d-flex justify-content-center">

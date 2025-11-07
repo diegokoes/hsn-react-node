@@ -1,11 +1,11 @@
-import Activacion from "@/features/auth/activation/activation";
+import Activacion from "@/features/auth/activation/activacion";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
 import Login from "../features/auth/login/login";
 import Registro from "../features/auth/registro/registro";
-import NotFound from "./rutas/404";
-import Landing from "./rutas/pagina-landing";
+import NotFound from "./routes/404";
+import Landing from "./routes/landing";
 
 //#region --------- LAYOUT - REACT ROUTER-DOM
 
@@ -21,7 +21,7 @@ function Layout() {
   );
 }
 //#endregion
-//#region --------- createBrowserRouter - RUTAS
+//#region --------- createBrowserRouter - ROUTES
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +31,6 @@ const router = createBrowserRouter([
     },
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Landing /> },
       {
         path: "auth",
         children: [
@@ -40,7 +39,17 @@ const router = createBrowserRouter([
           { path: "activacion", element: <Activacion /> },
         ],
       },
-
+      {
+        path: "shop/:pathCat/:nameCat",
+        element: <Landing />,
+        loader: async (request, params) => {
+          console.log(JSON.stringify(params));
+          let petProducts = await fetch(`http://localhost:3000/api/Tienda/Productos?pathCat=${params.pathCat}`, {
+            method: "GET",
+          });
+          let productsData = await petProducts.json();
+        },
+      },
       { path: "*", element: <NotFound /> },
     ],
   },

@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navigation() {
+  const hideTimer = useRef(null);
+  //#region ---- STATE -----
   const [categorias, setCategorias] = useState([]);
   const [subcats, setSubCats] = useState([]);
   const [activeParent, setActiveParent] = useState(null);
   const [showPanel, setShowPanel] = useState(false);
-  const hideTimer = useRef(null);
-
+  //#endregion
+  //#region ---- EFFECTS -----
   useEffect(() => {
     let cancelado = false;
     (async () => {
@@ -71,8 +73,8 @@ export default function Navigation() {
       cancelado = true;
     };
   }, [activeParent]);
-
-  // handlers de hover
+  //#endregion
+  //#region ---- HANDLERS -----
   const handleEnterParent = (categoria) => {
     if (hideTimer.current) {
       clearTimeout(hideTimer.current);
@@ -102,7 +104,7 @@ export default function Navigation() {
   const handleLeavePanel = () => {
     handleLeaveAll();
   };
-
+  //#endregion
   return (
     <div
       className="navigation border-top border-bottom"

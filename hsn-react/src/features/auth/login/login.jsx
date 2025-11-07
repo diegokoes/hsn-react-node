@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
 
-// Componente `Login`: controla el formulario de inicio de sesión,
-// su estado local, validaciones en cliente y el envío (submit) de datos.
 export default function Login() {
+  //#region ---- STATE ----
   const msgObligatorio = "Este campo es obligatorio";
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -13,10 +12,7 @@ export default function Login() {
       valido: null,
       validaciones: {
         obligatorio: [true, msgObligatorio],
-        patron: [
-          /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          "▲ Este campo debe ser un email válido",
-        ],
+        patron: [/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, "▲ Este campo debe ser un email válido"],
       },
       mensajeValidacion: "",
     },
@@ -36,36 +32,48 @@ export default function Login() {
     formValido: false,
   });
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    const { formValido, email, password } = loginData;
-    if (formValido) {
-      const url = "http://127.0.0.1:3000/auth/login";
-
-      const respuesta = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.valor,
-          password: password.valor,
-        }),
-      });
-    } else {
-      console.log("Formulario no válido, no se envían datos.");
-    }
-    setLoginData((prev) => ({
-      ...prev,
-      submitClick: true,
-    }));
-  }
-
+  //#endregion
+  //#region ---- EFFECTS ----
   useEffect(() => {
     console.log("formValido:", loginData.formValido);
   }, [loginData.formValido]);
 
+  //#endregion
+  //#region ---- HANDLERS ----
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const { formValido, email, password } = loginData;
+
+    setLoginData((prev) => ({
+      ...prev,
+      submitClick: true,
+    }));
+
+    if (formValido) {
+      const url = "http://localhost:3000/auth/login";
+
+      try {
+        const respuesta = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.valor,
+            password: password.valor,
+          }),
+        });
+
+        const data = await respuesta.json();
+        console.log("Respuesta del servidor:", JSON.stringify(data));
+      } catch (error) {
+        console.error("Error en el login:", error);
+      }
+    } else {
+      console.log("Formulario no válido, no se envían datos.");
+    }
+  }
   function handleOnChange(e) {
     const { id, value: valor } = e.target;
     const campo = loginData[id];
@@ -102,17 +110,10 @@ export default function Login() {
       };
     });
 
-    console.log(
-      "input:",
-      id,
-      "\nvalor:",
-      valor,
-      "\nmensajeValidacion:",
-      mensajeValidacion,
-      "\nvalido:",
-      valido
-    );
+    console.log("input:", id, "\nvalor:", valor, "\nmensajeValidacion:", mensajeValidacion, "\nvalido:", valido);
   }
+  //#endregion
+
   return (
     <>
       {loginData.submitClick && !loginData.formValido && (
@@ -138,8 +139,7 @@ export default function Login() {
             <div className="col-12 col-md-6">
               <div className="p-3 p-md-4 ps-md-5">
                 <p className="mb-4 small fw-light">
-                  Si ya eres usuario registrado, introduce tu email y la
-                  contraseña que utilizaste en el registro
+                  Si ya eres usuario registrado, introduce tu email y la contraseña que utilizaste en el registro
                 </p>
 
                 <form onSubmit={handleSubmit} noValidate>
@@ -158,17 +158,12 @@ export default function Login() {
                       value={loginData.email.valor}
                     />
                     {loginData.email.valido === false && (
-                      <div className="form-text text-danger small">
-                        {loginData.email.mensajeValidacion}
-                      </div>
+                      <div className="form-text text-danger small">{loginData.email.mensajeValidacion}</div>
                     )}
                   </div>
 
                   <div className="mb-3">
-                    <label
-                      htmlFor="password"
-                      className="form-label fw-bold small"
-                    >
+                    <label htmlFor="password" className="form-label fw-bold small">
                       Introduce tu contraseña
                     </label>
                     <div className="input-group hsn-input-group-square">
@@ -186,35 +181,22 @@ export default function Login() {
                         className="px-2 d-flex align-items-center text-secondary hsn-password-toggle"
                         onClick={() => setPasswordVisible(!passwordVisible)}
                       >
-                        <i
-                          className={`bi bi-eye ${
-                            passwordVisible ? "visible" : ""
-                          }`}
-                        />
+                        <i className={`bi bi-eye ${passwordVisible ? "visible" : ""}`} />
                       </span>
                     </div>
                     {loginData.password.valido === false && (
-                      <div className="form-text text-danger small">
-                        {loginData.password.mensajeValidacion}
-                      </div>
+                      <div className="form-text text-danger small">{loginData.password.mensajeValidacion}</div>
                     )}
                   </div>
 
                   <div className="d-grid gap-2 mb-2">
-                    <button
-                      type="submit"
-                      className="btn hsn-btn-orange-outline fst-italic"
-                      onClick={handleSubmit}
-                    >
+                    <button type="submit" className="btn hsn-btn-orange-outline fst-italic">
                       Iniciar Sesión
                     </button>
                   </div>
 
                   <div className="d-flex justify-content-between small">
-                    <a
-                      href="#"
-                      className="text-decoration-underline hsn-text-sm fw-bold small"
-                    >
+                    <a href="#" className="text-decoration-underline hsn-text-sm fw-bold small">
                       ¿Olvidó su contraseña?
                     </a>
                     <span className="text-success small fw-semibold">
@@ -229,13 +211,10 @@ export default function Login() {
             <div className="col-12 col-md-6  border-md-start border-md-top-0">
               <div className={`p-3 p-md-4 pe-md-5 hsn-right-col`}>
                 <div className="mb-3">
-                  <div className="h5 mb-2 fw-bolder small fst-italic">
-                    ¿TODAVÍA NO TIENES CUENTA?
-                  </div>
+                  <div className="h5 mb-2 fw-bolder small fst-italic">¿TODAVÍA NO TIENES CUENTA?</div>
                   <p className="mb-3 small ">
-                    Acumula puntos, obtén descuentos exclusivos, recibe regalos
-                    sorpresa... todas estas ventajas y muchas más con la cuenta
-                    HSN
+                    Acumula puntos, obtén descuentos exclusivos, recibe regalos sorpresa... todas estas ventajas y
+                    muchas más con la cuenta HSN
                   </p>
                 </div>
 
@@ -272,8 +251,8 @@ export default function Login() {
 
             <div className="col-12">
               <div className="text-center small text-muted px-3 px-md-4 pb-3 pb-md-4 ">
-                Si haces clic en Continuar con Facebook, Google o Amazon y no
-                eres usuario de HSN, pasarás a estar registrado y aceptas los
+                Si haces clic en Continuar con Facebook, Google o Amazon y no eres usuario de HSN, pasarás a estar
+                registrado y aceptas los
                 <span> </span>
                 <a href="#" className="text-decoration-underline hsn-text-sm">
                   Términos y Condiciones y la Política de Privacidad
