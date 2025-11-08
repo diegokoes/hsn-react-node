@@ -1,4 +1,5 @@
 import Activacion from "@/features/auth/activation/activacion";
+import Productos from "@/features/shop/products/productos";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
@@ -20,7 +21,7 @@ function Layout() {
     </div>
   );
 }
-//#endregion
+
 //#region --------- createBrowserRouter - ROUTES
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
+        index: true,
+        element: <Landing />,
+      },
+      {
         path: "auth",
         children: [
           { path: "login", element: <Login /> },
@@ -41,15 +46,17 @@ const router = createBrowserRouter([
       },
       {
         path: "shop/:pathCat/:nameCat",
-        element: <Landing />,
-        loader: async (request, params) => {
+        element: <Productos />,
+        loader: async ({ request, params }) => {
           console.log(JSON.stringify(params));
           let petProducts = await fetch(`http://localhost:3000/api/Tienda/Productos?pathCat=${params.pathCat}`, {
             method: "GET",
           });
-          let productsData = await petProducts.json();
+          let data = await petProducts.json();
+          return data?.productos ?? [];
         },
       },
+
       { path: "*", element: <NotFound /> },
     ],
   },

@@ -42,29 +42,11 @@ objetoRoutingTienda.get("/Categorias", async (req, res) => {
   }
 });
 
-// Compatibilidad: mantenemos también /categorias en minúscula con misma lógica
-objetoRoutingTienda.get("/categorias", async (req, res) => {
-  try {
-    const pathCat = req.query.pathCat;
-    const patronBusqueda = pathCat === "principales" ? /^\d+$/ : new RegExp(`^${pathCat}-[0-9]+`);
-    await mongoose.connect(process.env.MONGODB_URL);
-    const categorias = await mongoose.connection
-      .collection("categorias")
-      .find({ pathCategoria: { $regex: patronBusqueda } })
-      .toArray();
-    res.status(200).send({ codigo: 0, categorias });
-  } catch (error) {
-    console.log("**** ERROR EN GET /categorias", error);
-    res.status(200).send("ERROR EN SERVIDOR");
-  }
-});
-
 // GET /Productos - Recupera productos por pathCat
 // - Si pathCat es de 2º nivel (contiene 1 guion, ej: "2-3") => productos cuyo pathCategoria COMIENZA por `${pathCat}-`
 // - Si es de 3º nivel (dos guiones, ej: " 2-3-4") => productos cuyo pathCategoria COINCIDE exactamente
 objetoRoutingTienda.get("/Productos", async (req, res) => {
   try {
-    // 1) Leemos pathCategoria desde querystring
     const pathCategoria = req.query.pathCat;
     console.log(`pathCategoria recibida en query: ${pathCategoria}`);
 

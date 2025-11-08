@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function HeaderMainContainer() {
   // const { pedido } = useGlobalState();
   //!TODO meterle logica para pintar el numero de pedidos
@@ -7,28 +8,20 @@ export default function HeaderMainContainer() {
         <div className="row align-items-center gx-2">
           <div className="col-auto">
             <div className="logo d-flex align-items-center">
-              <a
-                href="/"
-                className="d-inline-flex align-items-center text-decoration-none"
-              >
+              <Link to="/" className="d-inline-flex align-items-center text-decoration-none">
                 <img
                   src="https://www.hsnstore.com/skin/frontend/default/hsnreborn/images/logoHSNReduced.svg"
                   alt="NUTRICIÓN DEPORTIVA Y DIETÉTICA NATURAL"
                   width="100"
                   height="33"
                 />
-              </a>
+              </Link>
             </div>
           </div>
 
           <div className="col">
             <div className="search-md w-100">
-              <form
-                id="search_mini_form"
-                action="#"
-                method="get"
-                className="w-100"
-              >
+              <form id="search_mini_form" action="#" method="get" className="w-100">
                 <div className="input-group input-group-sm">
                   <input
                     id="search"
@@ -38,11 +31,7 @@ export default function HeaderMainContainer() {
                     placeholder="Buscar por: Producto, Objetivo, Ingrediente..."
                     autoComplete="off"
                   />
-                  <button
-                    type="submit"
-                    title="Ir"
-                    className="btn btn-outline-secondary rounded-0 btn-sm"
-                  >
+                  <button type="submit" title="Ir" className="btn btn-outline-secondary rounded-0 btn-sm">
                     <i className="bi bi-search" aria-hidden="true"></i>
                     <span className="visually-hidden">Buscar</span>
                   </button>
@@ -89,10 +78,7 @@ export default function HeaderMainContainer() {
                 aria-label="Carrito de la compra"
                 style={{ backgroundColor: "#ff6000", borderColor: "#ff6000" }}
               >
-                <i
-                  className="bi bi-cart3 text-white"
-                  style={{ fontSize: "1.05rem" }}
-                ></i>
+                <i className="bi bi-cart3 text-white" style={{ fontSize: "1.05rem" }}></i>
                 <span
                   className="position-absolute"
                   style={{

@@ -1,6 +1,11 @@
+import useGlobalState from "@/stores/GlobalState";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
+
+const { setAccessToken, setClientData } = useGlobalState.getState();
+
+setAccessToken("pruebaModificacion/zBLFynT3DlXymGLTd+45TEezMJxfSM4/1aup85cbS/pHBvHUEcW7ueQc9upNTvOKg==");
 
 export default function Login() {
   //#region ---- STATE ----
@@ -66,6 +71,8 @@ export default function Login() {
         });
 
         const data = await respuesta.json();
+        setAccessToken(data.sessionToken);
+        setClientData(data.userData);
         console.log("Respuesta del servidor:", JSON.stringify(data));
       } catch (error) {
         console.error("Error en el login:", error);

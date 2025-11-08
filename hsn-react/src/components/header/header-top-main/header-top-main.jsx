@@ -1,20 +1,17 @@
+import useGlobalState from "@/stores/GlobalState";
 import { Link } from "react-router-dom";
 import "./header-top-main.css";
 
 export default function HeaderTopMain() {
+  const { clientData } = useGlobalState();
+
   return (
-    <div
-      className={`header-top-main border-bottom py-1 header-top-main-sm`}
-      style={{ background: "#f8f9fa" }}
-    >
+    <div className={`header-top-main border-bottom py-1 header-top-main-sm`} style={{ background: "#f8f9fa" }}>
       <div className="container">
         <div className="row align-items-center gx-2 header-top">
           <div className="col-auto">
             <div className="header_tagline">
-              <a
-                href="https://www.hsnstore.com/gastos-de-envio"
-                className="header-top-main-link"
-              >
+              <a href="https://www.hsnstore.com/gastos-de-envio" className="header-top-main-link">
                 Envío gratuito a partir de 29,99€*
               </a>
             </div>
@@ -22,10 +19,7 @@ export default function HeaderTopMain() {
 
           <div className="col-auto">
             <div className="header_top_tel_info">
-              <a
-                href="https://www.hsnstore.com/contacts"
-                className="header-top-main-link"
-              >
+              <a href="https://www.hsnstore.com/contacts" className="header-top-main-link">
                 Contacta con nosotros aquí
               </a>
             </div>
@@ -43,24 +37,33 @@ export default function HeaderTopMain() {
                 <span style={{ verticalAlign: "middle" }}>ES - EUR</span>
               </a>
             </div>
-
-            <div className="header_login">
-              <ul className="list-inline mb-0 header_login_box">
-                <li className="list-inline-item">
-                  <Link to="/auth/login" className="header-top-main-link">
-                    Iniciar Sesión
-                  </Link>
-                </li>
-                <li className="list-inline-item" style={{ color: "#999999" }}>
-                  |
-                </li>
-                <li className="list-inline-item">
-                  <Link to="/auth/registro" className="header-top-main-link">
-                    Crear cuenta
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            {clientData && clientData.nombre ? (
+              <div className="header_login">
+                <ul className="list-inline mb-0 header_login_box">
+                  <li className="list-inline-item">
+                    <span className="header-top-main-link">Hola, {clientData.nombre}</span>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="header_login">
+                <ul className="list-inline mb-0 header_login_box">
+                  <li className="list-inline-item">
+                    <Link to="/auth/login" className="header-top-main-link">
+                      Iniciar Sesión
+                    </Link>
+                  </li>
+                  <li className="list-inline-item" style={{ color: "#999999" }}>
+                    |
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/auth/registro" className="header-top-main-link">
+                      Crear cuenta
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
