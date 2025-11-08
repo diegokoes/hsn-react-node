@@ -1,10 +1,11 @@
 import useGlobalState from "@/stores/GlobalState";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 const { setAccessToken, setClientData } = useGlobalState.getState();
 
 export default function Login() {
+  const navigate = useNavigate();
   //#region ---- STATE ----
   const msgObligatorio = "Este campo es obligatorio";
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -71,6 +72,9 @@ export default function Login() {
         setAccessToken(data.sessionToken);
         setClientData(data.userData);
         console.log("Respuesta del servidor:", JSON.stringify(data));
+        if (data.ok) {
+          navigate("/");
+        }
       } catch (error) {
         console.error("Error en el login:", error);
       }
