@@ -295,7 +295,6 @@ export default function Registro() {
       if (respuesta.ok) {
         console.log("recibido de NODEJS", respuesta.status);
       } else {
-        const text = await respuesta.text().catch(() => "");
         console.error("Error en respuesta:", respuesta.status, text);
       }
     } catch (err) {

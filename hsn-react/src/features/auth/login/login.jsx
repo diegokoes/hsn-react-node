@@ -2,10 +2,7 @@ import useGlobalState from "@/stores/GlobalState";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-
 const { setAccessToken, setClientData } = useGlobalState.getState();
-
-setAccessToken("pruebaModificacion/zBLFynT3DlXymGLTd+45TEezMJxfSM4/1aup85cbS/pHBvHUEcW7ueQc9upNTvOKg==");
 
 export default function Login() {
   //#region ---- STATE ----

@@ -1,7 +1,9 @@
+import useGlobalState from "@/stores/GlobalState";
 import { Link } from "react-router-dom";
+
 export default function HeaderMainContainer() {
-  // const { pedido } = useGlobalState();
-  //!TODO meterle logica para pintar el numero de pedidos
+  const { cart, addCartItem } = useGlobalState();
+
   return (
     <div className="header_main_container py-2">
       <div className="container">
@@ -90,7 +92,7 @@ export default function HeaderMainContainer() {
                     lineHeight: 1,
                   }}
                 >
-                  0
+                  {cart.items && <>{cart.items.length}</>}
                 </span>
               </button>
             </div>
