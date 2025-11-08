@@ -25,7 +25,7 @@ export default function Landing() {
                   key={pos}
                   data-bs-target="#carouselExample"
                   data-bs-slide-to={pos}
-                  class="active"
+                  className={`active`}
                   aria-current="true"
                   aria-label={`Slide ${pos}`}
                 ></button>

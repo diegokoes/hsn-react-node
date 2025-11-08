@@ -19,7 +19,13 @@ const useGlobalState = create(
           total: 0,
         },
 
-        setClientData: (data) => set({ clientData: data }),
+        setClientData: (data) =>
+          set((state) => ({
+            clientData: {
+              ...state.clientData,
+              ...data,
+            },
+          })),
         setAccessToken: (token) => set({ accessToken: token }),
 
         addCartItem: (item) =>
