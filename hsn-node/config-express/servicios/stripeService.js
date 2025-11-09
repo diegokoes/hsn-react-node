@@ -1,10 +1,25 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
+const jwt = require("jsonwebtoken");
 const API_STRIPE_URL = "https://api.stripe.com/v1";
 function createJWTStripe(server_signature, payload) {}
 
+function verifyJWTuser(token, email, id) {
+  try {
+    const jwtDecoded = jwt.verify(token, process.env.JWT_SIGNING_KEY);
+    if (jwtDecoded.email === email && jwtDecoded.idCliente === id) {
+      return true;
+    } else return false;
+  } catch (err) {
+    console.log("Error verifying JWT:", err);
+    return false;
+  }
+}
+
 module.exports = {
-  createCustomerStripe: async (name, lastName, email, address) => {
+  createCustomerStripe: async (token, id, name, lastName, email, address) => {
+    if (!verifyJWTuser(token, email, id)) {
+      throw new Error("Invalid user token");
+    }
     try {
       const petCustomer = await fetch(`${API_STRIPE_URL}/customers`, {
         method: "POST",

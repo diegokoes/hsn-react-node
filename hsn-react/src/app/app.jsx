@@ -1,10 +1,13 @@
-import Activacion from "@/features/auth/activation/activacion";
-import Productos from "@/features/shop/products/productos";
+import Activation from "@/features/auth/activation/activation";
+import Order from "@/features/shop/cart/cart";
+import Checkout from "@/features/shop/finalize-order/FinPedidoComp/checkout";
+import CheckoutSuccess from "@/features/shop/finalize-order/after-payment/checkout-success";
+import ProductsCategory from "@/features/shop/products/products-category";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
 import Login from "../features/auth/login/login";
-import Registro from "../features/auth/registro/registro";
+import Registration from "../features/auth/registration/registration";
 import Landing from "../features/shop/landing/landing";
 import NotFound from "./routes/404";
 
@@ -40,13 +43,13 @@ const router = createBrowserRouter([
         path: "auth",
         children: [
           { path: "login", element: <Login /> },
-          { path: "registro", element: <Registro /> },
-          { path: "activacion", element: <Activacion /> },
+          { path: "registro", element: <Registration /> },
+          { path: "activation", element: <Activation /> },
         ],
       },
       {
         path: "shop/:pathCat/:nameCat",
-        element: <Productos />,
+        element: <ProductsCategory />,
         loader: async ({ request, params }) => {
           console.log(JSON.stringify(params));
           let petProducts = await fetch(`http://localhost:3000/api/shop/products?pathCat=${params.pathCat}`, {
@@ -55,6 +58,14 @@ const router = createBrowserRouter([
           let data = await petProducts.json();
           return data?.productos ?? [];
         },
+        children: [
+          { path: "orders/current-order", element: <Order /> },
+          {
+            path: "orders/finish-order",
+            element: <Checkout />,
+            children: [{ path: "success", element: <CheckoutSuccess /> }],
+          },
+        ],
       },
 
       { path: "*", element: <NotFound /> },

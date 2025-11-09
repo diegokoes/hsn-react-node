@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import InputsCompartidos from "./components/label-inputs/inputs-compartidos";
-import LeftPanel from "./panel-izquierdo/panel-izquierdo";
-import "./registro.css";
+import SharedInputs from "./components/label-inputs/shared-inputs";
+import LeftPanel from "./left-panel/panel-izquierdo";
+import "./registration.css";
 
 const msgObligatorio = "Este es un campo obligatorio";
 
-export default function Registro() {
-  //#region ---- STATE ----
-
+export default function Registration() {
   const [formData, setFormData] = useState({
     tipoFormulario: "Particular",
     particular: {
@@ -93,7 +91,6 @@ export default function Registro() {
         placeholder: "Código Plan Amigo",
         tipo: "text",
       },
-
       recibirPromociones: {
         valor: false,
         tipo: "checkbox",
@@ -109,7 +106,7 @@ export default function Registro() {
         tipo: "checkbox",
         labelSmall: "He leído y acepto la Política de privacidad",
       },
-      formValido: false, // calculado dinámicamente por useEffect
+      formValido: false,
     },
     empresa: {
       empresa: {
@@ -235,20 +232,15 @@ export default function Registro() {
       formValido: false,
     },
   });
-  //#endregion
-  //#region ---- EFFECTS ----
+
   useEffect(() => {
     const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     const grupo = formData[tipo];
-
     const camposEntries = Object.entries(grupo);
-
     const ignorar = new Set(["recibirPromociones", "formValido", "codigoPlanAmigo"]);
-
     let esValido = true;
     for (const [key, def] of camposEntries) {
       if (ignorar.has(key)) continue;
-
       if (def && typeof def === "object") {
         const tieneValid = Object.prototype.hasOwnProperty.call(def, "valido");
         if (tieneValid) {
@@ -259,20 +251,15 @@ export default function Registro() {
         }
       }
     }
-
     if (grupo.formValido !== esValido) {
       setFormData((prev) => ({
         ...prev,
-        [tipo]: {
-          ...prev[tipo],
-          formValido: esValido,
-        },
+        [tipo]: { ...prev[tipo], formValido: esValido },
       }));
     }
     console.log("formValido:", grupo.formValido);
   }, [formData.tipoFormulario, formData.particular, formData.empresa]);
-  //#endregion
-  //#region ---- HANDLERS ----
+
   async function handleSubmit(ev) {
     ev.preventDefault();
     const url = "http://localhost:3000/api/auth/register";
@@ -281,21 +268,18 @@ export default function Registro() {
       console.log("no es valido, no se hace submit");
       return;
     }
-
     const payload = normalizeUseStateData(formData[tipo]);
     try {
       console.log(payload);
       const respuesta = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ payload, tipo }),
       });
       if (respuesta.ok) {
         console.log("recibido de NODEJS", respuesta.status);
       } else {
-        console.error("Error en respuesta:", respuesta.status, text);
+        console.error("Error en respuesta:", respuesta.status);
       }
     } catch (err) {
       console.error(err);
@@ -306,22 +290,18 @@ export default function Registro() {
     setFormData((prev) => {
       const tipoFormulario = prev.tipoFormulario === "Particular" ? "particular" : "empresa";
       const campo = prev[tipoFormulario][campoId];
-      if (!campo || (campo.tipo !== "password" && campo.tipo !== "text")) {
-        return prev;
-      }
+      if (!campo || (campo.tipo !== "password" && campo.tipo !== "text")) return prev;
       const nuevoTipo = campo.tipo === "password" ? "text" : "password";
       return {
         ...prev,
         [tipoFormulario]: {
           ...prev[tipoFormulario],
-          [campoId]: {
-            ...campo,
-            tipo: nuevoTipo,
-          },
+          [campoId]: { ...campo, tipo: nuevoTipo },
         },
       };
     });
   }
+
   function handleChange(ev) {
     const valor = ev.target.type === "checkbox" ? ev.target.checked : ev.target.value;
     const id = ev.target.id;
@@ -351,7 +331,6 @@ export default function Registro() {
     } else if (campo.tipo === "checkbox") {
       const esObligatorio =
         campo.validaciones && campo.validaciones.obligatorio && campo.validaciones.obligatorio[0] === true;
-
       if (esObligatorio) {
         if (valor === true) {
           valido = true;
@@ -376,25 +355,15 @@ export default function Registro() {
         mensajeValidacion = "";
       }
     }
-
     setFormData((prev) => ({
       ...prev,
       [tipoFormulario]: {
         ...prev[tipoFormulario],
-        [id]: {
-          ...prev[tipoFormulario][id],
-          valor,
-          mensajeValidacion,
-          valido,
-        },
+        [id]: { ...prev[tipoFormulario][id], valor, mensajeValidacion, valido },
       },
     }));
-
-    console.log("input:", id, "\nvalor:", valor, "\nmensajeValidacion:", mensajeValidacion, "\nvalido:", valido);
   }
 
-  //#endregion
-  //#region ---- UTILITIES ----
   function normalizeUseStateData(objCliente) {
     const ignorar = new Set([
       "repassword",
@@ -411,14 +380,12 @@ export default function Registro() {
       "formValido",
       "extraInfo",
     ]);
-
     return Object.fromEntries(
       Object.entries(objCliente)
         .filter(([key, val]) => val && typeof val === "object" && "valor" in val && !ignorar.has(key))
         .map(([key, val]) => [key, val.valor])
     );
   }
-  //#endregion
 
   return (
     <section className="container-xxl d-flex justify-content-center">
@@ -427,7 +394,6 @@ export default function Registro() {
           <div className="col-12 col-lg-5">
             <LeftPanel />
           </div>
-
           <div className="col-12 col-lg-7 border-lg-start border-md-top-0">
             <div className="p-3 p-md-4 pe-md-5">
               <div className="hsn-register-formbox p-3 p-md-4">
@@ -445,10 +411,7 @@ export default function Registro() {
                         defaultChecked
                         className="visually-hidden"
                         onClick={() =>
-                          setFormData((prevFormData) => ({
-                            ...prevFormData,
-                            tipoFormulario: "Particular",
-                          }))
+                          setFormData((prevFormData) => ({ ...prevFormData, tipoFormulario: "Particular" }))
                         }
                       />
                       <label htmlFor="personal" className="hsn-client-type-option">
@@ -459,14 +422,8 @@ export default function Registro() {
                         name="client_type"
                         id="company"
                         className="visually-hidden"
-                        onClick={() =>
-                          setFormData((prevFormData) => ({
-                            ...prevFormData,
-                            tipoFormulario: "Empresa",
-                          }))
-                        }
+                        onClick={() => setFormData((prevFormData) => ({ ...prevFormData, tipoFormulario: "Empresa" }))}
                       />
-
                       <label htmlFor="company" className="hsn-client-type-option">
                         Empresa
                       </label>
@@ -478,8 +435,7 @@ export default function Registro() {
                       </p>
                     )}
                   </div>
-
-                  <InputsCompartidos
+                  <SharedInputs
                     datosParticular={formData.tipoFormulario === "Particular" ? formData.particular : formData.empresa}
                     handleChange={handleChange}
                     onTogglePassword={handleTogglePassword}
@@ -489,7 +445,6 @@ export default function Registro() {
               </div>
             </div>
           </div>
-
           <div className="col-12">
             <div className="text-center small text-muted px-3 px-md-4 pb-3 pb-md-4">
               Al registrarte aceptas los{" "}

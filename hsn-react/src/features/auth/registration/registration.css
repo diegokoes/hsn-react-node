@@ -153,8 +153,7 @@
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
-  transition: background 0.18s ease-in-out, border-color 0.18s ease-in-out,
-    color 0.18s ease-in-out;
+  transition: background 0.18s ease-in-out, border-color 0.18s ease-in-out, color 0.18s ease-in-out;
 }
 .hsn-client-type-option:hover {
   border-color: #bfc5cc;

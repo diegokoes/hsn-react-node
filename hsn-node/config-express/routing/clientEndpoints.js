@@ -35,6 +35,7 @@ clientEndpoints.post("/register", async (req, resp) => {
         directions: [],
         paymentMethods: [],
         accountCreationDate: Date.now(),
+        tipo,
       });
       console.log("*** INSERTADO? : ", resInsert);
     }

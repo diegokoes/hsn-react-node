@@ -1,4 +1,4 @@
-export default function Activacion() {
+export default function Activation() {
   return (
     <div>
       <h1>ACCOUNT ACTIVATED!!!</h1>

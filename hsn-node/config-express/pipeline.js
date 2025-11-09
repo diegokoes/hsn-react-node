@@ -2,8 +2,8 @@
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const cors = require("cors");
-const objetoRoutingCliente = require("./routing/endPointsCliente.js");
 const shopEndpoints = require("./routing/shopEndpoints.js");
+const clientEndpoints = require("./routing/clientEndpoints.js");
 
 module.exports = (serverExpress) => {
   // cada modulo middleware es una funcion con 3 parametros
@@ -27,7 +27,7 @@ module.exports = (serverExpress) => {
   // .use() configura/añade un middlware a la pipeline - personalizadas
 
   //* POR NORMA GENERAL LOS ULTIMOS LOS DE RUTAS PERSONALIZADAS
-  serverExpress.use("/api/auth", objetoRoutingCliente);
+  serverExpress.use("/api/auth", clientEndpoints);
   // Rutas de la tienda (categorías, productos, etc.)
   serverExpress.use("/api/shop", shopEndpoints);
 };

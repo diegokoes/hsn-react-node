@@ -7,7 +7,7 @@ const { setAccessToken, setClientData } = useGlobalState.getState();
 export default function Login() {
   const navigate = useNavigate();
   //#region ---- STATE ----
-  const msgObligatorio = "Este campo es obligatorio";
+  const msgObligatorio = "▲ Este campo es obligatorio";
   const [errorMessage, setErrorMessage] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginData, setLoginData] = useState({

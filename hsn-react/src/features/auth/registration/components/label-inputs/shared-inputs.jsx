@@ -1,14 +1,10 @@
-export default function InputsCompartidos(props) {
+export default function SharedInputs(props) {
   return (
     <>
       {props.datosParticular &&
         Object.entries(props.datosParticular).map(([clave, valor]) => {
-          const isPasswordField =
-            clave === "password" || clave === "repassword";
-          if (
-            ["text", "email", "password"].includes(valor.tipo) ||
-            isPasswordField
-          ) {
+          const isPasswordField = clave === "password" || clave === "repassword";
+          if (["text", "email", "password"].includes(valor.tipo) || isPasswordField) {
             return (
               <div className="mb-1" key={clave}>
                 <label htmlFor={clave} className="form-label small fw-bold">
@@ -26,18 +22,10 @@ export default function InputsCompartidos(props) {
                       value={valor.valor}
                     />
                     <span
-                      className={`hsn-password-icon text-secondary ${
-                        valor.tipo === "text" ? "visible" : ""
-                      }`}
-                      onClick={() =>
-                        props?.onTogglePassword && props.onTogglePassword(clave)
-                      }
+                      className={`hsn-password-icon text-secondary ${valor.tipo === "text" ? "visible" : ""}`}
+                      onClick={() => props?.onTogglePassword && props.onTogglePassword(clave)}
                     >
-                      <i
-                        className={`bi ${
-                          valor.tipo === "text" ? "bi-eye" : "bi-eye-slash"
-                        }`}
-                      />
+                      <i className={`bi ${valor.tipo === "text" ? "bi-eye" : "bi-eye-slash"}`} />
                     </span>
                   </div>
                 ) : (
@@ -51,11 +39,7 @@ export default function InputsCompartidos(props) {
                     value={valor.valor}
                   />
                 )}
-                {valor.valido === false && (
-                  <div className="form-text text-danger small">
-                    {valor.mensajeValidacion}
-                  </div>
-                )}
+                {valor.valido === false && <div className="form-text text-danger small">{valor.mensajeValidacion}</div>}
               </div>
             );
           }
@@ -80,11 +64,7 @@ export default function InputsCompartidos(props) {
                     </option>
                   ))}
                 </select>
-                {valor.valido === false && (
-                  <div className="form-text text-danger small">
-                    {valor.mensajeValidacion}
-                  </div>
-                )}
+                {valor.valido === false && <div className="form-text text-danger small">{valor.mensajeValidacion}</div>}
               </div>
             );
           }
@@ -92,9 +72,7 @@ export default function InputsCompartidos(props) {
           if (valor.tipo === "checkbox") {
             return (
               <div className=" mb-1" key={clave}>
-                <label className="form-label small fw-bold">
-                  {valor.labelBold} con el state
-                </label>
+                <label className="form-label small fw-bold">{valor.labelBold} con el state</label>
                 <div className="form-check">
                   <input
                     className="form-check-input"
@@ -108,11 +86,7 @@ export default function InputsCompartidos(props) {
                     <span className="label-note small">{valor.labelSmall}</span>
                   </label>
                 </div>
-                {valor.valido === false && (
-                  <div className="form-text text-danger small">
-                    {valor.mensajeValidacion}
-                  </div>
-                )}
+                {valor.valido === false && <div className="form-text text-danger small">{valor.mensajeValidacion}</div>}
               </div>
             );
           }
@@ -120,7 +94,7 @@ export default function InputsCompartidos(props) {
       <div className="row g-3 align-items-center">
         <div className="col-12 col-sm-6 order-sm-2">
           <div className="d-grid">
-            <button type="submit" className="btn hsn-btn-create fs-6">
+            <button type="submit" className="btn hsn-btn-create fs-6" disabled={!props.formValido}>
               REGISTRARME YA
             </button>
           </div>
