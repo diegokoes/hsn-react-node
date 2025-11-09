@@ -282,7 +282,7 @@ export default function Registro() {
       return;
     }
 
-    const payload = normalizarUseStateData(formData[tipo]);
+    const payload = normalizeUseStateData(formData[tipo]);
     try {
       console.log(payload);
       const respuesta = await fetch(url, {
@@ -395,7 +395,7 @@ export default function Registro() {
 
   //#endregion
   //#region ---- UTILITIES ----
-  function normalizarUseStateData(objCliente) {
+  function normalizeUseStateData(objCliente) {
     const ignorar = new Set([
       "repassword",
       "aceptaTerminos",
