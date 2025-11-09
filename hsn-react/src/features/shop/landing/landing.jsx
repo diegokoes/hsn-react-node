@@ -1,71 +1,79 @@
+import { useEffect, useRef, useState } from "react";
+import slide5 from "./assets/interaktingslider_es-Banner-pack-algas-supreme_06.webp";
+import slide6 from "./assets/interaktingslider_es-Banner-sabor-pastel-manzana-2025_06.webp";
+import slide7 from "./assets/interaktingslider_es-BN-ExtractodeCurcuma_02.webp";
+import slide1 from "./assets/interaktingslider_es-BN-ExtractodePygeumAfricano_02.webp";
+import slide2 from "./assets/interaktingslider_es-Otono-Outlet-10-2025_12.webp";
+import slide3 from "./assets/interaktingslider_es03-lunes-50sist-inmune-respiratorio-11-2025-Recuperado_12.webp";
+import slide4 from "./assets/interaktingslider_es07-Lunes-55strength-11-2025_12.webp";
 import "./landing.css";
 
 export default function Landing() {
-  const imagenesCarousel = [
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-Otono-Outlet-10-2025_03.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-06-lunes-hsndays70-10-2025_03.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_v2-es-BN-Evocreatine_04.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-BN-EvodietVegan_04.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-Banner-sabor-te-chai-25_13.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-Banner-pack-empiezo-hoy_13.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-Otono-Outlet-10-2025_03.webp",
-    "https://www.hsnstore.com/media/interaktingslider/interaktingslider_es-06-lunes-hsndays70-10-2025_03.webp",
-  ];
+  const [imagenesCarousel] = useState([slide1, slide2, slide3, slide4, slide5, slide6, slide7]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const intervalRef = useRef(null);
+
+  const startInterval = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    intervalRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % imagenesCarousel.length);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    startInterval();
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
+  const goToIndex = (index) => {
+    setActiveIndex(index);
+    startInterval();
+  };
+
+  const goToPrev = () => goToIndex((activeIndex - 1 + imagenesCarousel.length) % imagenesCarousel.length);
+  const goToNext = () => goToIndex((activeIndex + 1) % imagenesCarousel.length);
 
   return (
-    <div className="container mt-4">
-      {/* carrusel de imagenes...*/}
+    <div className="container mt-0">
       <div className="row">
         <div className="col">
-          <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
+          <div id="carouselExample" className="carousel slide">
             <div className="carousel-indicators">
-              {imagenesCarousel.map((im, pos) => (
+              {imagenesCarousel.map((_, pos) => (
                 <button
                   type="button"
-                  key={pos}
-                  data-bs-target="#carouselExample"
-                  data-bs-slide-to={pos}
-                  className={`active`}
-                  aria-current="true"
-                  aria-label={`Slide ${pos}`}
+                  key={`indicator-${pos}`}
+                  onClick={() => goToIndex(pos)}
+                  className={activeIndex === pos ? "active" : ""}
+                  aria-label={`Slide ${pos + 1}`}
                 ></button>
               ))}
             </div>
             <div className="carousel-inner">
               {imagenesCarousel.map((im, pos) => (
-                <div className={`carousel-item ${pos == 0 ? "active" : ""}`}>
-                  <img
-                    src={im}
-                    key={pos}
-                    className="d-block w-100"
-                    alt={`carrousel-${pos}`}
-                    style={{ aspectRatio: " auto 4 / 3", width: "1200px", height: "600px" }}
-                  />
+                <div key={`slide-${pos}`} className={`carousel-item ${pos === activeIndex ? "active" : ""}`}>
+                  <img src={im} className="landing-carousel-img d-block w-100" alt={`carrousel-${pos}`} />
                 </div>
               ))}
-              <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExample"
-                data-bs-slide="prev"
-              >
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExample"
-                data-bs-slide="next"
-              >
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-              </button>
             </div>
+            <button className="carousel-control-prev" type="button" onClick={goToPrev}>
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button className="carousel-control-next" type="button" onClick={goToNext}>
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Next</span>
+            </button>
           </div>
         </div>
       </div>
-      <div className="row mt-3">
+      <div className="row mt-1">
         <div className="col">
           <div style={{ margin: "0", padding: "0", color: "#4e4e4e" }}>
             <h1>Tienda Online de Nutrición Deportiva, Dietética Natural y Accesorios</h1>

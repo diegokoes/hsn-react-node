@@ -5,8 +5,8 @@ import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
 import Login from "../features/auth/login/login";
 import Registro from "../features/auth/registro/registro";
+import Landing from "../features/shop/landing/landing";
 import NotFound from "./routes/404";
-import Landing from "./routes/landing";
 
 //#region --------- LAYOUT - REACT ROUTER-DOM
 
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         element: <Productos />,
         loader: async ({ request, params }) => {
           console.log(JSON.stringify(params));
-          let petProducts = await fetch(`http://localhost:3000/api/Tienda/Productos?pathCat=${params.pathCat}`, {
+          let petProducts = await fetch(`http://localhost:3000/api/shop/products?pathCat=${params.pathCat}`, {
             method: "GET",
           });
           let data = await petProducts.json();

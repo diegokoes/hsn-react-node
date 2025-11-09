@@ -8,6 +8,7 @@ export default function Login() {
   const navigate = useNavigate();
   //#region ---- STATE ----
   const msgObligatorio = "Este campo es obligatorio";
+  const [errorMessage, setErrorMessage] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginData, setLoginData] = useState({
     email: {
@@ -36,12 +37,14 @@ export default function Login() {
   });
 
   //#endregion
+
   //#region ---- EFFECTS ----
   useEffect(() => {
     console.log("formValido:", loginData.formValido);
   }, [loginData.formValido]);
 
   //#endregion
+
   //#region ---- HANDLERS ----
   async function handleSubmit(e) {
     e.preventDefault();
@@ -54,7 +57,7 @@ export default function Login() {
     }));
 
     if (formValido) {
-      const url = "http://localhost:3000/auth/login";
+      const url = "http://localhost:3000/api/auth/login";
 
       try {
         const respuesta = await fetch(url, {
@@ -74,9 +77,13 @@ export default function Login() {
         console.log("Respuesta del servidor:", JSON.stringify(data));
         if (data.ok) {
           navigate("/");
+        } else {
+          setErrorMessage(data.message);
         }
       } catch (error) {
         console.error("Error en el login:", error);
+        const errorMessage = await respuesta.message.json();
+        setErrorMessage(errorMessage);
       }
     } else {
       console.log("Formulario no válido, no se envían datos.");
@@ -135,6 +142,18 @@ export default function Login() {
           </li>
         </ul>
       )}
+      {errorMessage && (
+        <ul className="messages mb-2 mt-3">
+          <li className="error-msg">
+            <ul>
+              <li>
+                <span>{errorMessage}</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      )}
+
       <section className="container my-4 my-md-5 d-flex justify-content-center">
         <div className="mx-auto hsn-login-panel">
           <div className="row g-0">

@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendAccountActivationMail } = require("../servicios/nodemailerService");
 
-objetoRoutingCliente.post("/registro", async (req, resp) => {
+objetoRoutingCliente.post("/register", async (req, resp) => {
   try {
     console.log(req.body);
 
@@ -122,9 +122,9 @@ objetoRoutingCliente.post("/login", async (req, resp) => {
 
     const passwordsMatch = await bcrypt.compare(password, userData.password);
 
-    if (!passwordsMatch) return resp.status(400).send("Bad login");
-    //!TODO send email to activate it
-    if (!userData.accountActivated) return resp.status(400).send("Your account is not activated");
+    if (!passwordsMatch) return resp.status(400).json({ message: "Bad login" });
+
+    if (!userData.accountActivated) return resp.status(400).json({ message: "Your account is not activated" });
 
     if (email === userData.email && passwordsMatch) {
       const sessionToken = jwt.sign(

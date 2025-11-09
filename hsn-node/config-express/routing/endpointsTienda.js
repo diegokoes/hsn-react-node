@@ -1,6 +1,6 @@
 // exportamos objeto de enrutamiento
 const express = require("express");
-const objetoRoutingTienda = express.Router();
+const shopEndpoints = express.Router();
 const mongoose = require("mongoose");
 
 // GET /Categorias - Recupera categorías según pathCat
@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 // - Si pathCat!= "principales" => subcategorías cuyo pathCategoria comienza por `${pathCat}-<numero>`
 // Ejemplo de consumo desde React:
 // fetch('http://localhost:3000/api/Tienda/Categorias?pathCat=principales')
-objetoRoutingTienda.get("/Categorias", async (req, res) => {
+shopEndpoints.get("/categories", async (req, res) => {
   try {
     // 1) Leemos el filtro que llega por querystring
     const pathCat = req.query.pathCat;
@@ -45,7 +45,7 @@ objetoRoutingTienda.get("/Categorias", async (req, res) => {
 // GET /Productos - Recupera productos por pathCat
 // - Si pathCat es de 2º nivel (contiene 1 guion, ej: "2-3") => productos cuyo pathCategoria COMIENZA por `${pathCat}-`
 // - Si es de 3º nivel (dos guiones, ej: " 2-3-4") => productos cuyo pathCategoria COINCIDE exactamente
-objetoRoutingTienda.get("/Productos", async (req, res) => {
+shopEndpoints.get("/products", async (req, res) => {
   try {
     const pathCategoria = req.query.pathCat;
     console.log(`pathCategoria recibida en query: ${pathCategoria}`);
@@ -77,4 +77,4 @@ objetoRoutingTienda.get("/Productos", async (req, res) => {
   }
 });
 
-module.exports = objetoRoutingTienda;
+module.exports = shopEndpoints;

@@ -76,6 +76,25 @@ const useGlobalState = create(
             const totals = calculateTotals(state.cart.items, cost);
             return { cart: { ...state.cart, shippingCost: cost, ...totals } };
           }),
+
+        reset: () => {
+          set(() => ({
+            clientData: null,
+            accessToken: null,
+            cart: {
+              items: [],
+              state: "",
+              paymentDate: null,
+              paymentMethod: null,
+              paymentAddress: null,
+              shipmentAddress: null,
+              shippingCost: 0,
+              subtotal: 0,
+              total: 0,
+            },
+          }));
+          localStorage.removeItem("hsn-global-state");
+        },
       }),
       {
         name: "hsn-global-state",

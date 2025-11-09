@@ -42,3 +42,48 @@ li {
   padding-top: 5px;
   display: inherit;
 }
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.carousel-indicators button {
+  width: 2em;
+  height: 14px;
+  background-color: #000000;
+  border: none;
+  border-radius: 0px;
+  opacity: 1;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-indicators button.active {
+  background-color: #ff6000;
+}
+
+.landing-carousel-img {
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+}
+
+a {
+  color: #666;
+  text-decoration: underline;
+}
+
+#carouselExample {
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .landing-carousel-img {
+    width: 1600px;
+    height: 600px;
+    margin: 0 auto;
+  }
+}

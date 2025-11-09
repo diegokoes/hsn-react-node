@@ -14,7 +14,7 @@ export default function Navigation() {
     let cancelado = false;
     (async () => {
       try {
-        const respuesta = await fetch("http://localhost:3000/api/Tienda/Categorias?pathCat=principales", {
+        const respuesta = await fetch("http://localhost:3000/api/shop/categories?pathCat=principales", {
           method: "GET",
         });
         const cuerpo = await respuesta.json();
@@ -41,7 +41,7 @@ export default function Navigation() {
       }
       try {
         const respuesta = await fetch(
-          `http://localhost:3000/api/Tienda/Categorias?pathCat=${encodeURIComponent(activeParent)}`
+          `http://localhost:3000/api/shop/categories?pathCat=${encodeURIComponent(activeParent)}`
         );
         if (!respuesta.ok) throw new Error(`error al obtener subcategorias ${respuesta.status}`);
         const cuerpoResp = await respuesta.json();

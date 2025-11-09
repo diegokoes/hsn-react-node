@@ -6,21 +6,6 @@ import "./registro.css";
 const msgObligatorio = "Este es un campo obligatorio";
 
 export default function Registro() {
-  useEffect(() => {
-    (async () => {
-      try {
-        const respuesta = await fetch("URL", {
-          method: "GET",
-        });
-        const cuerpo = await respuesta.json();
-      } catch (e) {
-        console.error("Error:", e);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {}, []);
-
   //#region ---- STATE ----
 
   const [formData, setFormData] = useState({
@@ -290,7 +275,7 @@ export default function Registro() {
   //#region ---- HANDLERS ----
   async function handleSubmit(ev) {
     ev.preventDefault();
-    const url = "http://localhost:3000/auth/registro";
+    const url = "http://localhost:3000/api/auth/register";
     const tipo = formData.tipoFormulario === "Particular" ? "particular" : "empresa";
     if (!formData[tipo].formValido) {
       console.log("no es valido, no se hace submit");
