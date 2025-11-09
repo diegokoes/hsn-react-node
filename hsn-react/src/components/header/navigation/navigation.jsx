@@ -124,10 +124,10 @@ export default function Navigation() {
                 style={{ whiteSpace: "nowrap" }}
               >
                 {categorias.length > 0 &&
-                  categorias.map((categoria, idx) => (
+                  categorias.map((categoria, pos, arr) => (
                     <li
                       className="nav-item"
-                      key={idx}
+                      key={pos}
                       onMouseEnter={() => handleEnterParent(categoria)}
                       onMouseLeave={handleLeaveAll}
                     >
@@ -139,6 +139,7 @@ export default function Navigation() {
                           fontStyle: "italic",
                           paddingTop: "0.35rem",
                           paddingBottom: "0.35rem",
+                          color: pos >= arr.length - 4 ? "#f35f07" : undefined,
                         }}
                         to={`/Productos/${encodeURIComponent(categoria.pathCategoria)}`}
                       >

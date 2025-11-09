@@ -1,11 +1,11 @@
 const express = require("express");
-const objetoRoutingCliente = express.Router();
+const clientEndpoints = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendAccountActivationMail } = require("../servicios/nodemailerService");
 
-objetoRoutingCliente.post("/register", async (req, resp) => {
+clientEndpoints.post("/register", async (req, resp) => {
   try {
     console.log(req.body);
 
@@ -64,7 +64,7 @@ objetoRoutingCliente.post("/register", async (req, resp) => {
   }
 });
 
-objetoRoutingCliente.get("/activar", async (req, resp, next) => {
+clientEndpoints.get("/activar", async (req, resp, next) => {
   try {
     const { email, idCliente, token, tipo } = req.query;
 
@@ -99,7 +99,7 @@ objetoRoutingCliente.get("/activar", async (req, resp, next) => {
   }
 });
 
-objetoRoutingCliente.post("/login", async (req, resp) => {
+clientEndpoints.post("/login", async (req, resp) => {
   const { email, password } = req.body;
 
   if (!email || !password) return resp.status(400).send("Bad Request, email and password needed");
@@ -144,4 +144,4 @@ objetoRoutingCliente.post("/login", async (req, resp) => {
   }
 });
 
-module.exports = objetoRoutingCliente;
+module.exports = clientEndpoints;

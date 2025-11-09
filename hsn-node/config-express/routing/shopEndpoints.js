@@ -6,8 +6,7 @@ const mongoose = require("mongoose");
 // GET /Categorias - Recupera categorías según pathCat
 // - Si pathCat= "principales" => categorías raíz (pathCategoria es un único dígito)
 // - Si pathCat!= "principales" => subcategorías cuyo pathCategoria comienza por `${pathCat}-<numero>`
-// Ejemplo de consumo desde React:
-// fetch('http://localhost:3000/api/Tienda/Categorias?pathCat=principales')
+
 shopEndpoints.get("/categories", async (req, res) => {
   try {
     // 1) Leemos el filtro que llega por querystring
@@ -74,6 +73,24 @@ shopEndpoints.get("/products", async (req, res) => {
       mensaje: "error recuperando productos ..." + error,
       productos: [],
     });
+  }
+});
+
+shopEndpoints.post("/finalize-payment", async (req, resp) => {
+  try {
+    const { params } = req.body;
+
+    await mongoose.connect(process.env.MONGODB_URL);
+    const collection = mongoose.connection.collection("collectionName");
+
+    // Your logic here
+
+    return resp.status(200).json({ ok: true, data });
+  } catch (error) {
+    console.log("Error in path:", error);
+    return resp.status(500).send("ERROR EN SERVIDOR");
+  } finally {
+    mongoose.connection.close();
   }
 });
 
