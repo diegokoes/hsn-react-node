@@ -17,8 +17,6 @@ I try to keep english consistent across the project but  I've kept files named i
 ## AI use
 
 I've used it mainly in this places:
-
-- Comment every function with a brief and concise description of what it does
 - Bootstrap styling of scrapped components of the original site, the focus of this project wasn't replicating the styles, it was learning React + ExpressJS so Bootstrap and CSS took a backseat and I didn't do any of that.
 - I knew what I wanted to do in normalizeUseStateData() in the registration component, but I didn't know **how** to do it. I explicitely asked the AI to give me hints about how to achieve that normalization so that I don't send a nested monster of an object into the backend with data I don't need, and I arrived at that strategy used.
 
