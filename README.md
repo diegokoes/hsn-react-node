@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a class project, most of what is has been used in this project has followed the topics of what we have seen in class, but built on my own and adding things. I've played a little bit with the structure for react projects suggested in [Bulletproof React](https://github.com/alan2207/bulletproof-react/tree/master) and in [FSD](https://feature-sliced.design/docs/get-started/overview), while also expanding validations, adding more complexity to the database structure managing not only personal accounts registration but also businesses, and adding more services aside from mailjet, like gmail via nodemailer, etc.
+This is a class project, most of what has been used in this project has followed the topics of what we have seen in class, but built on my own and adding things. I've played a little bit with the structure for react projects suggested in [Bulletproof React](https://github.com/alan2207/bulletproof-react/tree/master) and in [FSD](https://feature-sliced.design/docs/get-started/overview), while also expanding validations, adding more complexity to the database structure managing not only personal accounts registration but also businesses, and adding more services aside from mailjet, like gmail via nodemailer, etc.
 
 I try to keep english consistent across the project but  I've kept files named in spanish because when sending stuff to my teacher I wanted it to be consistent with his project, specially in the React part. Will try to refractor in the future so it's just pure english and less chaotic.
 
