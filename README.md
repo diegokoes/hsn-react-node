@@ -12,11 +12,13 @@ I try to keep english consistent across the project but  I've kept files named i
 
 - The second password input validates if that text matches the first password input, but all validations depend on the input having the onChange, so if the 1st password input changes and ends up matching both, the error message is still showing even if the validations are ok. I have to look up a better way to manage this.
 
-- Next project use TypeScript and use Zod + React Hook Form to manage the validations on the login/registration.
+- Next project I want to use TypeScript and  Zod + React Hook Form to manage the validations on the login/registration.
+
+- Implement Paypal / Stripe services, I have all the notes to do implement it but for lack of time I didn't get to it
 
 ## AI use
 
-I've used it mainly in this places:
+I've used it mainly in these places:
 - Bootstrap styling of scrapped components of the original site, the focus of this project wasn't replicating the styles, it was learning React + ExpressJS so Bootstrap and CSS took a backseat and I didn't do any of that.
 - I knew what I wanted to do in normalizeUseStateData() in the registration component, but I didn't know **how** to do it. I explicitely asked the AI to give me hints about how to achieve that normalization so that I don't send a nested monster of an object into the backend with data I don't need, and I arrived at that strategy used.
 
