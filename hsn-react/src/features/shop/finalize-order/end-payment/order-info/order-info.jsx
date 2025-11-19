@@ -1,6 +1,6 @@
 import "./order-info.css";
 
-function OrderInfo({ pedido }) {
+export default function OrderInfo({ pedido }) {
   const fechaActual = new Date();
   const fechaA3dias = new Date(fechaActual.setDate(fechaActual.getDate() + 3));
 
@@ -85,4 +85,3 @@ function OrderInfo({ pedido }) {
     </div>
   );
 }
-export default ResumenPedido;

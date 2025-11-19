@@ -1,4 +1,4 @@
-import "./order-item.css";
+import "./cart-item.css";
 
 export default function CartItem({ item, setPedido }) {
   return (

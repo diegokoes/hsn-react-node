@@ -62,11 +62,8 @@ shopEndpoints.get("/products", async (req, res) => {
       .find({ pathCategoria: { $regex: patron } })
       .toArray();
 
-    // 4) Respuesta OK con array de productos
-    console.log(`productosArray recuperados: ${JSON.stringify(productos)}`);
     res.status(200).send({ codigo: 0, mensaje: "productos recuperados ok...", productos });
   } catch (error) {
-    // 5) Manejo de errores
     console.log("error recuperar productos  ", error);
     res.status(200).send({
       codigo: 1,

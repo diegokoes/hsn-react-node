@@ -1,5 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const jwt = require("jsonwebtoken");
+const { useEffect } = require("react");
 const API_STRIPE_URL = "https://api.stripe.com/v1";
 function createJWTStripe(server_signature, payload) {}
 

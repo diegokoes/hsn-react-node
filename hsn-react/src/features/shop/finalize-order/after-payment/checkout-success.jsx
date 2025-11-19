@@ -1,6 +1,6 @@
 import useGlobalState from "@/stores/GlobalState";
 import { Link } from "react-router-dom";
-import ResumenPedido from "../FinPedidoComp/order-info/order-info";
+import ResumenPedido from "../end-payment/order-info/order-info";
 import "./checkout-success.css";
 
 function CheckoutSuccess() {

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendAccountActivationMail } = require("../servicios/nodemailerService");
+const RECAPTCHA_MIN_SCORE = 0.5;
 
 clientEndpoints.post("/register", async (req, resp) => {
   try {
@@ -101,7 +102,7 @@ clientEndpoints.get("/activar", async (req, resp, next) => {
 });
 
 clientEndpoints.post("/login", async (req, resp) => {
-  const { email, password } = req.body;
+  const { email, password, recaptchaToken, recaptchaAction } = req.body;
 
   if (!email || !password) return resp.status(400).send("Bad Request, email and password needed");
   if (
@@ -110,6 +111,46 @@ clientEndpoints.post("/login", async (req, resp) => {
   ) {
     return resp.status(200).send("Bad format in email or password");
   }
+
+  if (!recaptchaToken || !recaptchaAction) {
+    return resp.status(400).json({ message: "Captcha validation required" });
+  }
+
+  const captchaSecret = process.env.CAPTCHA_SECRET_KEY;
+  if (!captchaSecret) {
+    console.error("Missing CAPTCHA_SECRET_KEY environment variable");
+    return resp.status(500).json({ message: "Captcha verification unavailable" });
+  }
+
+  try {
+    const captchaResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        secret: captchaSecret,
+        response: recaptchaToken,
+        remoteip: req.ip || "",
+      }),
+    });
+
+    const captchaData = await captchaResponse.json();
+
+    if (!captchaData.success) {
+      console.warn("reCAPTCHA validation failed:", captchaData["error-codes"]);
+      return resp.status(400).json({ message: "Captcha verification failed" });
+    }
+
+    const captchaScore =
+      typeof captchaData.score === "number" ? captchaData.score : parseFloat(captchaData.score ?? "0");
+
+    if ((recaptchaAction && captchaData.action !== recaptchaAction) || captchaScore < RECAPTCHA_MIN_SCORE) {
+      return resp.status(400).json({ message: "Captcha verification failed" });
+    }
+  } catch (captchaError) {
+    console.error("Error verifying reCAPTCHA:", captchaError);
+    return resp.status(500).json({ message: "Captcha verification failed" });
+  }
+
   try {
     await mongoose.connect(process.env.MONGODB_URL);
     const empresasCollection = mongoose.connection.collection("empresas");

@@ -141,7 +141,7 @@ export default function Navigation() {
                           paddingBottom: "0.35rem",
                           color: pos >= arr.length - 4 ? "#f35f07" : undefined,
                         }}
-                        to={`/Productos/${encodeURIComponent(categoria.pathCategoria)}`}
+                        to={`/shop/${encodeURIComponent(categoria.pathCategoria)}`}
                       >
                         <span className="catsppales">
                           {categoria.nombreCategoria} <i className="bi bi-chevron-down" aria-hidden="true"></i>
@@ -192,7 +192,7 @@ export default function Navigation() {
                         <div key={pos}>
                           <div className="fw-semibold mb-1">
                             <Link
-                              to={`/Productos/${encodeURIComponent(subcat.pathCategoria)}`}
+                              to={`/shop/${encodeURIComponent(subcat.pathCategoria)}`}
                               className="text-decoration-none text-dark"
                               style={{ fontSize: "0.9rem" }}
                             >
@@ -203,7 +203,7 @@ export default function Navigation() {
                             {subcat.subcategorias.map((tercat, tercpos) => (
                               <li key={tercpos} className="mb-1">
                                 <Link
-                                  to={`/Productos/${encodeURIComponent(tercat.pathCategoria)}`}
+                                  to={`/shop/${encodeURIComponent(tercat.pathCategoria)}`}
                                   className="text-decoration-none"
                                   style={{
                                     font: 'normal 10px "Roboto","Open Sans",sans-serif',
@@ -234,7 +234,7 @@ export default function Navigation() {
                         {leaves.map((leaf, i) => (
                           <div key={i} style={{ breakInside: "avoid-column" }}>
                             <Link
-                              to={`/Productos/${encodeURIComponent(leaf.pathCategoria)}`}
+                              to={`/shop/${encodeURIComponent(leaf.pathCategoria)}`}
                               className="text-decoration-none"
                               style={{
                                 display: "inline-block",

@@ -1,9 +1,12 @@
+import AccountPanel from "@/features/auth/account-panel/account-panel";
+import PersonalData from "@/features/auth/account-panel/personal-data/personal-data";
 import Activation from "@/features/auth/activation/activation";
 import Order from "@/features/shop/cart/cart";
-import Checkout from "@/features/shop/finalize-order/FinPedidoComp/checkout";
 import CheckoutSuccess from "@/features/shop/finalize-order/after-payment/checkout-success";
+import Checkout from "@/features/shop/finalize-order/end-payment/checkout";
 import ProductsCategory from "@/features/shop/products/products-category";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import useGlobalState from "@/stores/GlobalState";
+import { createBrowserRouter, Outlet, redirect, RouterProvider } from "react-router-dom";
 import Footer from "../components/footer/footer";
 import Header from "../components/header/header";
 import Login from "../features/auth/login/login";
@@ -25,6 +28,11 @@ function Layout() {
   );
 }
 
+const logoutLoader = () => {
+  const { reset } = useGlobalState.getState();
+  reset();
+  return redirect("/");
+};
 //#region --------- createBrowserRouter - ROUTES
 const router = createBrowserRouter([
   {
@@ -45,10 +53,21 @@ const router = createBrowserRouter([
           { path: "login", element: <Login /> },
           { path: "registro", element: <Registration /> },
           { path: "activation", element: <Activation /> },
+          {
+            path: "account-panel",
+            element: <AccountPanel />,
+            children: [
+              { path: "misdatospersonales", element: <PersonalData /> },
+              {
+                path: "salir",
+                loader: logoutLoader,
+              },
+            ],
+          },
         ],
       },
       {
-        path: "shop/:pathCat/:nameCat",
+        path: "shop/:pathCat",
         element: <ProductsCategory />,
         loader: async ({ request, params }) => {
           console.log(JSON.stringify(params));

@@ -2,12 +2,17 @@ import useGlobalState from "@/stores/GlobalState";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
+
 const { setAccessToken, setClientData } = useGlobalState.getState();
+const RECAPTCHA_SITE_KEY = "6Ld3rwMsAAAAALgzQ5jE3U7a1HpzEwth8stCo1v_";
+const RECAPTCHA_ACTION = "login_submit";
 
 export default function Login() {
   const navigate = useNavigate();
   //#region ---- STATE ----
   const msgObligatorio = "▲ Este campo es obligatorio";
+  const [recaptchaReady, setRecaptchaReady] = useState(false);
+  const [recaptchaError, setRecaptchaError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -43,6 +48,51 @@ export default function Login() {
     console.log("formValido:", loginData.formValido);
   }, [loginData.formValido]);
 
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY) {
+      return;
+    }
+
+    const scriptId = "recaptcha-v3-script";
+    let cancelled = false;
+
+    const initRecaptcha = () => {
+      window.grecaptcha?.ready(() => {
+        if (!cancelled) {
+          setRecaptchaReady(true);
+          setRecaptchaError(null);
+        }
+      });
+    };
+
+    let script = document.getElementById(scriptId);
+
+    if (script) {
+      initRecaptcha();
+    } else {
+      script = document.createElement("script");
+      script.id = scriptId;
+      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.defer = true;
+      script.onload = initRecaptcha;
+      script.onerror = () => {
+        if (!cancelled) {
+          setRecaptchaError("No se pudo cargar reCAPTCHA. Inténtalo más tarde.");
+        }
+      };
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      cancelled = true;
+      if (script) {
+        script.onload = null;
+        script.onerror = null;
+      }
+    };
+  }, [RECAPTCHA_SITE_KEY]);
+
   //#endregion
 
   //#region ---- HANDLERS ----
@@ -56,39 +106,80 @@ export default function Login() {
       submitClick: true,
     }));
 
-    if (formValido) {
+    if (!formValido) {
+      console.log("Formulario no válido, no se envían datos.");
+      return;
+    }
+
+    if (!RECAPTCHA_SITE_KEY) {
+      setRecaptchaError("Falta la clave de reCAPTCHA. Contacta con el administrador.");
+      return;
+    }
+
+    if (!window.grecaptcha) {
+      setRecaptchaError("reCAPTCHA no está listo. Inténtalo de nuevo en unos segundos.");
+      return;
+    }
+
+    setRecaptchaError(null);
+    setErrorMessage(null);
+
+    let recaptchaToken;
+
+    try {
+      recaptchaToken = await new Promise((resolve, reject) => {
+        window.grecaptcha.ready(async () => {
+          try {
+            const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: RECAPTCHA_ACTION });
+            resolve(token);
+          } catch (readyError) {
+            reject(readyError);
+          }
+        });
+      });
+    } catch (readyError) {
+      console.error("Error preparando reCAPTCHA:", readyError);
+      setRecaptchaError("No se pudo verificar reCAPTCHA. Inténtalo de nuevo.");
+      return;
+    }
+
+    if (!recaptchaToken) {
+      setRecaptchaError("No se pudo verificar reCAPTCHA. Inténtalo de nuevo.");
+      return;
+    }
+
+    try {
       const url = "http://localhost:3000/api/auth/login";
 
-      try {
-        const respuesta = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email.valor,
-            password: password.valor,
-          }),
-        });
+      const respuesta = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.valor,
+          password: password.valor,
+          recaptchaToken,
+          recaptchaAction: RECAPTCHA_ACTION,
+        }),
+      });
 
-        const data = await respuesta.json();
+      const data = await respuesta.json();
+      console.log("Respuesta del servidor:", JSON.stringify(data));
+
+      if (data.ok) {
         setAccessToken(data.sessionToken);
         setClientData(data.userData);
-        console.log("Respuesta del servidor:", JSON.stringify(data));
-        if (data.ok) {
-          navigate("/");
-        } else {
-          setErrorMessage(data.message);
-        }
-      } catch (error) {
-        console.error("Error en el login:", error);
-        const errorMessage = await respuesta.message.json();
-        setErrorMessage(errorMessage);
+        navigate("/");
+      } else {
+        setErrorMessage(data.message ?? "No se pudo iniciar sesión.");
       }
-    } else {
-      console.log("Formulario no válido, no se envían datos.");
+    } catch (error) {
+      console.error("Error en el login:", error);
+      setErrorMessage("Se produjo un problema al iniciar sesión. Inténtalo de nuevo.");
     }
   }
+
   function handleOnChange(e) {
     const { id, value: valor } = e.target;
     const campo = loginData[id];
@@ -137,6 +228,17 @@ export default function Login() {
             <ul>
               <li>
                 <span>Por favor introduce un usuario y contraseña.</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      )}
+      {recaptchaError && (
+        <ul className="messages mb-2 mt-3">
+          <li className="error-msg">
+            <ul>
+              <li>
+                <span>{recaptchaError}</span>
               </li>
             </ul>
           </li>
@@ -231,6 +333,17 @@ export default function Login() {
                       Conexión segura
                     </span>
                   </div>
+                  <p className="small text-muted mt-3">
+                    Este sitio está protegido por reCAPTCHA y se aplican la{" "}
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+                      Política de Privacidad
+                    </a>{" "}
+                    y los{" "}
+                    <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">
+                      Términos de Servicio
+                    </a>{" "}
+                    de Google.
+                  </p>
                 </form>
               </div>
             </div>

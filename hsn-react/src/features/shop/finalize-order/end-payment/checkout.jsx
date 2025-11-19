@@ -5,9 +5,9 @@ import useGlobalState from "@/stores/GlobalState";
 import Envio from "../stage-1-Envio/Envio";
 import Pago from "../stage-2-Pago/Pago";
 import Finalizar from "../stage-3-Finalizar/Finalizar";
-import ResumenPedido from "./order-info/order-info";
+import OrderInfo from "./order-info/order-info";
 
-function Checkout() {
+export default function Checkout() {
   const { pedido } = useGlobalState();
   const [currentStage, setCurrentStage] = useState(1);
   const [stages, setStages] = useState([
@@ -97,10 +97,9 @@ function Checkout() {
           )}
         </div>
         <div className="col-4">
-          <ResumenPedido pedido={pedido} />
+          <OrderInfo pedido={pedido} />
         </div>
       </div>
     </div>
   );
 }
-export default Checkout;

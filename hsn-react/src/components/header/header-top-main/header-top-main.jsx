@@ -38,13 +38,48 @@ export default function HeaderTopMain() {
               </a>
             </div>
             {clientData && clientData.nombre ? (
-              <div className="header_login">
-                <ul className="list-inline mb-0 header_login_box">
-                  <li className="list-inline-item">
-                    <span className="header-top-main-link">Hola, {clientData.nombre}</span>
-                  </li>
-                </ul>
-              </div>
+              <>
+                <div className="header_login">
+                  <ul className="list-inline mb-0 header_login_box">
+                    <li className="list-inline-item">
+                      <span className="header-top-main-link">Hola, {clientData.nombre}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="dropdown">
+                  <button
+                    className="btn btn-light btn-sm dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <span>Hola, {clientData.nombre}</span>
+                  </button>
+                  <ul className="dropdown-menu">
+                    {[
+                      "Mis datos personales",
+                      "Mis Pedidos",
+                      "Mis Tickets",
+                      "Plan Ahorro",
+                      "Libreta de direcciones",
+                      "Guardados para luego",
+                      "Mis favoritos",
+                      "Puntos HSN",
+                      "Plan Amigo",
+                      "SALIR",
+                    ].map((item, pos) => (
+                      <li key={pos}>
+                        <a
+                          className="dropdown-item"
+                          href={`/auth/account-panel/${item.replace(/\s+/g, "").toLowerCase()}`}
+                        >
+                          <span style={{ fontSize: "0.9em" }}>{item}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
             ) : (
               <div className="header_login">
                 <ul className="list-inline mb-0 header_login_box">

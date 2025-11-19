@@ -1,11 +1,9 @@
-import useGlobalState from "@/stores/GlobalState";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./product.css";
 
 export default function Product({ producto }) {
   const navigate = useNavigate();
-  const { pedido, setPedido } = useGlobalState();
 
   //desestructurar objeto producto quitando imagenes, descripcion, valoraciones....y para añadir formato/sabor elegido, los arrays los transformamos asi: [ { formato/sabor:..., seleccionado: true/false}]
   let {
@@ -17,9 +15,7 @@ export default function Product({ producto }) {
     ...prodItem
   } = producto;
 
-  const [cantidad, setCantidad] = useState(
-    pedido.itemsPedido.find((it) => it.producto._id === producto._id)?.cantidad || 1
-  );
+  const [cantidad, setCantidad] = useState();
   const [productoState, setProductoState] = useState({
     ...prodItem,
     Imagenes: prodItem.Imagenes.slice(0, 1),
@@ -30,11 +26,6 @@ export default function Product({ producto }) {
       index === 0 ? { nombre: sabor, seleccionado: true } : { nombre: sabor, seleccionado: false }
     ),
   });
-
-  function HandlerAddToCart() {
-    console.log(`añadiendo al carrito producto con cantidad ${cantidad}`, productoState);
-    setPedido("agregar", { producto: productoState, cantidad });
-  }
 
   function HandlerChangeSelect(e) {
     console.log(`cambiado select ${e.target.name} a ${e.target.value}`);
@@ -151,7 +142,6 @@ export default function Product({ producto }) {
           {/* boton añadir al carrito */}
           <button
             type="button"
-            onClick={HandlerAddToCart}
             className="btn btn-success"
             style={{
               fontSize: "1.4em",
