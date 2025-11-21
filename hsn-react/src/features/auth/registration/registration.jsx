@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SharedInputs from "./components/label-inputs/shared-inputs";
-import LeftPanel from "./left-panel/panel-izquierdo";
+import LeftPanel from "./left-panel/left-panel";
 import "./registration.css";
 
 const msgObligatorio = "Este es un campo obligatorio";

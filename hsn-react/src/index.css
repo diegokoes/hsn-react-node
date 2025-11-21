@@ -1,5 +1,3 @@
-/* Minimal, Bootstrap-friendly globals. Avoid overriding layout/typography
-   so Bootstrap’s container/grid and component styles behave as expected. */
 :root {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Open Sans", sans-serif;
   line-height: 1.5;
@@ -17,12 +15,9 @@ body {
   background-color: #ffffff;
 }
 
-/* Keep anchor styles neutral; let Bootstrap handle coloring via utilities */
 a {
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
 }
-
-/* Do not globally style buttons here to avoid conflicts with .btn */

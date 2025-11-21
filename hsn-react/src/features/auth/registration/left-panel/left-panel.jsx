@@ -1,4 +1,4 @@
-export default function PanelIzquierdo() {
+export default function LeftPanel() {
   return (
     <div className="p-3 p-md-4 ps-md-5">
       <h2 className="hsn-register-title m-0 mb-3">Hola, ¿creamos tu cuenta?</h2>
